@@ -1,40 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Product+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Product+Sans:wght@400;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-google: "Product Sans", "Inter", sans-serif;
   
-  --color-google-blue: #4285F4;
-  --color-google-red: #EA4335;
-  --color-google-yellow: #FBBC05;
-  --color-google-green: #34A853;
+  --color-google-blue: #1A73E8;
+  --color-google-red: #D93025;
+  --color-google-yellow: #F9AB00;
+  --color-google-green: #1E8E3E;
+  --color-google-bg: #F8F9FA;
+  --color-google-surface: #FFFFFF;
   
-  --radius-google: 24px;
-  --radius-google-sm: 12px;
+  --radius-google: 28px;
+  --radius-google-sm: 16px;
+  --radius-google-xs: 8px;
 }
 
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900 font-sans;
+    @apply bg-google-bg text-gray-800 font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-google;
   }
 }
 
 @layer components {
-  .google-tile {
-    @apply bg-white border border-gray-200 rounded-google p-6 shadow-sm hover:shadow-md transition-shadow duration-200;
+  .google-card {
+    @apply bg-google-surface border border-gray-200 rounded-google p-6 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out;
   }
   
-  .google-button {
-    @apply px-6 py-2.5 rounded-full font-medium transition-all duration-200 active:scale-95 disabled:opacity-50;
+  .google-chip {
+    @apply px-4 py-1.5 rounded-full text-sm font-bold tracking-tight transition-colors;
   }
   
-  .google-button-primary {
-    @apply px-6 py-2.5 rounded-full font-medium transition-all duration-200 active:scale-95 disabled:opacity-50;
-    @apply bg-google-blue text-white hover:bg-blue-600 shadow-sm hover:shadow;
-  }
-
-  .google-input {
-    @apply w-full px-4 py-3 rounded-google-sm border border-gray-300 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all;
+  .google-nav-item {
+    @apply px-6 py-3 rounded-full font-google font-bold text-base transition-all duration-300 flex items-center gap-2;
   }
 }

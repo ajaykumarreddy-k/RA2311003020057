@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { Bell, ShieldAlert } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Bell, LayoutGrid, Award } from 'lucide-react';
 import Home from './pages/Home';
 import Priority from './pages/Priority';
 
@@ -8,27 +8,27 @@ function Navigation() {
   const location = useLocation();
   
   return (
-    <div className="flex justify-center gap-2 mb-10 bg-white p-1.5 rounded-2xl shadow-sm border border-gray-100">
+    <div className="flex justify-center gap-2 mb-12 bg-white p-2 rounded-full shadow-sm border border-gray-100 max-w-fit mx-auto">
       <Link 
         to="/" 
-        className={`px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 ${
+        className={`google-nav-item ${
           location.pathname === '/' 
-            ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' 
+            ? 'bg-blue-50 text-google-blue' 
             : 'text-gray-500 hover:bg-gray-50'
         }`}
       >
-        <Bell size={18} />
-        All Notifications
+        <LayoutGrid size={20} />
+        Notifications
       </Link>
       <Link 
         to="/priority" 
-        className={`px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 ${
+        className={`google-nav-item ${
           location.pathname === '/priority' 
-            ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' 
+            ? 'bg-blue-50 text-google-blue' 
             : 'text-gray-500 hover:bg-gray-50'
         }`}
       >
-        <ShieldAlert size={18} />
+        <Award size={20} />
         Priority Inbox
       </Link>
     </div>
@@ -38,36 +38,48 @@ function Navigation() {
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center py-16 px-4 sm:px-6">
-        <header className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 text-white shadow-xl shadow-blue-100 mb-6">
-            <Bell size={32} />
-          </div>
-          <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-3">
-            Campus Notifications
+      <div className="min-h-screen bg-google-bg flex flex-col items-center py-16 px-4 sm:px-6">
+        <header className="mb-12 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-center gap-2.5 mb-6"
+          >
+            <div className="w-3.5 h-3.5 rounded-full bg-google-blue shadow-sm" />
+            <div className="w-3.5 h-3.5 rounded-full bg-google-red shadow-sm" />
+            <div className="w-3.5 h-3.5 rounded-full bg-google-yellow shadow-sm" />
+            <div className="w-3.5 h-3.5 rounded-full bg-google-green shadow-sm" />
+          </motion.div>
+          <h1 className="text-5xl font-google font-bold text-gray-900 tracking-tighter mb-4">
+            Campus Connect
           </h1>
-          <p className="text-gray-500 font-medium max-w-md mx-auto">
-            Stay updated with the latest events, results, and placement news on campus.
+          <p className="text-gray-500 font-medium max-w-md mx-auto text-lg leading-relaxed">
+            The official central hub for campus notifications, results, and events.
           </p>
         </header>
 
         <Navigation />
 
         <main className="w-full max-w-4xl">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-[2rem] shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden min-h-[600px]"
-          >
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/priority" element={<Priority />} />
-            </Routes>
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={location.pathname}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="bg-white rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden min-h-[600px]"
+            >
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/priority" element={<Priority />} />
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
         </main>
         
-        <footer className="mt-20 text-gray-400 text-sm font-medium">
-          &copy; 2024 Campus Connect • Notification Service
+        <footer className="mt-20 text-gray-400 text-sm font-google font-bold tracking-widest uppercase">
+          &copy; 2024 • Google Theme Perfected
         </footer>
       </div>
     </Router>

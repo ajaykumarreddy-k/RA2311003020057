@@ -12,6 +12,8 @@ npx create-next-app@latest campus-notifications --typescript --app
 cd campus-notifications
 npm install @mui/material @emotion/react @emotion/styled
 ---- tried to install Error in Compatable for the current setup -- making it better so not using this system - componenets for the hard coded implemented and impoving quality with out it and making sure it is good and error free 
+----------------
+Added the assets and icons from Fvi cons and implemented the assets into the app and 
 
 
 
