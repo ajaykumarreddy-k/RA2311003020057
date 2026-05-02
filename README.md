@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="./Assets /Priority.gif" alt="Logo" width="80" height="80">
-  <h1 align="center">Campus Notifications Platform</h1>
+  <img src="[./Assets /Priority.gif](https://github.com/ajaykumarreddy-k/RA2311003020057/blob/main/Assets%20/Screencast%20From%202026-05-02%2012-15-23.webm)" alt="Logo" width="80" height="80">
+  <h1 align="center">RA2311003020057</h1>
   <p align="center">
     A centralized, high-performance notification portal built for modern university campuses.
     <br />
