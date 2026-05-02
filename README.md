@@ -27,8 +27,8 @@
 
 <div align="center">
   <h3>Live Walkthrough</h3>
-  <video src="./Assets /Screencast%20From%202026-05-02%2012-15-23.webm" width="100%" controls="controls" autoplay="autoplay" loop="loop" muted="muted">
-    <a href="./Assets /Screencast%20From%202026-05-02%2012-15-23.webm">View Demo Video</a>
+  <video src="https://raw.githubusercontent.com/ajaykumarreddy-k/RA2311003020057/main/Assets%20/Screencast%20From%202026-05-02%2012-15-23.webm" width="100%" controls="controls" autoplay="autoplay" loop="loop" muted="muted">
+    <a href="https://raw.githubusercontent.com/ajaykumarreddy-k/RA2311003020057/main/Assets%20/Screencast%20From%202026-05-02%2012-15-23.webm">View Demo Video</a>
   </video>
 </div>
 
@@ -100,8 +100,8 @@ The target API for logging (`/evaluation-service/logs`) is a strictly protected 
 
 1.  **Clone & Install Dependencies**
     ```bash
-    git clone https://github.com/your_username/campus-notifications.git
-    cd campus-notifications
+    git clone https://github.com/ajaykumarreddy-k/RA2311003020057.git
+    cd RA2311003020057
     npm install
     ```
 2.  **Configure Environment Variables**
