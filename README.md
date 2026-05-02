@@ -92,12 +92,12 @@ The target API for logging (`/evaluation-service/logs`) is a strictly protected 
     VITE_API_URL=/evaluation-service/notifications
     
     # Logging Auth Credentials
-    VITE_AUTH_EMAIL="your_email@example.com"
-    VITE_AUTH_NAME="Your Name"
-    VITE_AUTH_ROLLNO="Your Roll Number"
-    VITE_AUTH_ACCESS_CODE="Your Access Code"
-    VITE_AUTH_CLIENT_ID="Your Client ID"
-    VITE_AUTH_CLIENT_SECRET="Your Client Secret"
+    VITE_AUTH_EMAIL="participant@example.com"
+    VITE_AUTH_NAME="Participant"
+    VITE_AUTH_ROLLNO="Roll_Number"
+    VITE_AUTH_ACCESS_CODE="Access_Code"
+    VITE_AUTH_CLIENT_ID="Client_ID"
+    VITE_AUTH_CLIENT_SECRET="Client_Secret"
     ```
 3.  **Run the Server**
     ```bash
