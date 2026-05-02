@@ -8,13 +8,13 @@ function Navigation() {
   const location = useLocation();
   
   return (
-    <div className="flex justify-center gap-4 mb-8">
+    <div className="flex justify-center gap-2 mb-10 bg-white p-1.5 rounded-2xl shadow-sm border border-gray-100">
       <Link 
         to="/" 
-        className={`px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${
+        className={`px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 ${
           location.pathname === '/' 
-            ? 'bg-blue-100 text-google-blue' 
-            : 'text-gray-500 hover:bg-gray-100'
+            ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' 
+            : 'text-gray-500 hover:bg-gray-50'
         }`}
       >
         <Bell size={18} />
@@ -22,10 +22,10 @@ function Navigation() {
       </Link>
       <Link 
         to="/priority" 
-        className={`px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${
+        className={`px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 ${
           location.pathname === '/priority' 
-            ? 'bg-red-100 text-google-red' 
-            : 'text-gray-500 hover:bg-gray-100'
+            ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' 
+            : 'text-gray-500 hover:bg-gray-50'
         }`}
       >
         <ShieldAlert size={18} />
@@ -38,22 +38,17 @@ function Navigation() {
 export default function App() {
   return (
     <Router>
-      <div id="google-theme-app" className="min-h-screen bg-gray-50 flex flex-col items-center py-12 px-4 sm:px-6">
-        <header className="mb-8 text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex justify-center gap-2 mb-4"
-          >
-            <div className="w-4 h-4 rounded-full bg-google-blue" />
-            <div className="w-4 h-4 rounded-full bg-google-red" />
-            <div className="w-4 h-4 rounded-full bg-google-yellow" />
-            <div className="w-4 h-4 rounded-full bg-google-green" />
-          </motion.div>
-          <h1 className="text-4xl font-google font-bold text-gray-800 tracking-tight mb-2">
+      <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center py-16 px-4 sm:px-6">
+        <header className="mb-10 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 text-white shadow-xl shadow-blue-100 mb-6">
+            <Bell size={32} />
+          </div>
+          <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-3">
             Campus Notifications
           </h1>
-          <p className="text-gray-500 font-medium">Simple, clean, and Material inspired</p>
+          <p className="text-gray-500 font-medium max-w-md mx-auto">
+            Stay updated with the latest events, results, and placement news on campus.
+          </p>
         </header>
 
         <Navigation />
@@ -62,7 +57,7 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 min-h-[500px]"
+            className="bg-white rounded-[2rem] shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden min-h-[600px]"
           >
             <Routes>
               <Route path="/" element={<Home />} />
@@ -70,14 +65,9 @@ export default function App() {
             </Routes>
           </motion.div>
         </main>
-
-        <footer className="mt-auto pt-12 pb-4 text-gray-400 text-xs flex items-center gap-1">
-          <span>Built with</span>
-          <div className="w-2 h-2 rounded-full bg-google-blue mx-0.5" />
-          <div className="w-2 h-2 rounded-full bg-google-red mx-0.5" />
-          <div className="w-2 h-2 rounded-full bg-google-yellow mx-0.5" />
-          <div className="w-2 h-2 rounded-full bg-google-green mx-0.5" />
-          <span className="ml-1 tracking-wider uppercase font-semibold">Google Aesthetics</span>
+        
+        <footer className="mt-20 text-gray-400 text-sm font-medium">
+          &copy; 2024 Campus Connect • Notification Service
         </footer>
       </div>
     </Router>
