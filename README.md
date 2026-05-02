@@ -23,6 +23,24 @@
 
 ---
 
+## 🎬 Platform Preview
+
+<div align="center">
+  <h3>Live Walkthrough</h3>
+  <video src="./Assets /Screencast%20From%202026-05-02%2012-15-23.webm" width="100%" controls="controls" autoplay="autoplay" loop="loop" muted="muted">
+    <a href="./Assets /Screencast%20From%202026-05-02%2012-15-23.webm">View Demo Video</a>
+  </video>
+</div>
+
+### Screenshots
+<div align="center">
+  <img src="./Assets /screencapture-localhost-3000-2026-05-02-12_16_54.png" alt="All Notifications View" width="49%" />
+  &nbsp;
+  <img src="./Assets /screencapture-localhost-3000-priority-2026-05-02-12_17_08.png" alt="Priority Notifications View" width="49%" />
+</div>
+
+---
+
 ## ⚡ Performance Metrics
 
 The application is hyper-optimized for performance, achieving near-instantaneous load times and perfect layout stability. Based on local profiling:
