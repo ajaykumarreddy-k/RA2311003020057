@@ -21,7 +21,8 @@
     "express": "^4.21.2",
     "dotenv": "^17.2.3",
     "motion": "^12.23.24",
-    "react-router-dom": "^7.2.0"
+    "react-router-dom": "^7.2.0",
+    "logging-middleware": "file:./logging_middleware"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

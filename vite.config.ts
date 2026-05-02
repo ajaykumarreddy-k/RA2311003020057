@@ -14,12 +14,21 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+        'logging-middleware': path.resolve(__dirname, './logging_middleware/src/index.ts'),
+        'logging-middleware/dist/types': path.resolve(__dirname, './logging_middleware/src/types.ts')
       },
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
+      // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
+      proxy: {
+        '/evaluation-service': {
+          target: 'http://20.207.122.201',
+          changeOrigin: true,
+          secure: false,
+        }
+      }
     },
   };
 });

@@ -3,6 +3,7 @@ import { useNotifications } from '../hooks/useNotifications';
 import NotificationCard from '../components/NotificationCard';
 import { AppNotification } from '../types';
 import { Loader2, ChevronLeft, ChevronRight, ListFilter } from 'lucide-react';
+import notificationIcon from '../../Assets /notification.gif';
 
 export default function Home() {
   const [page, setPage] = useState(1);
@@ -15,9 +16,14 @@ export default function Home() {
   return (
     <div className="p-8 md:p-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-        <h2 className="text-3xl font-google font-bold text-gray-900 tracking-tight">
-          All Notifications
-        </h2>
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-google-blue flex items-center justify-center shadow-lg shadow-blue-100 overflow-hidden">
+            <img src={notificationIcon} alt="Notification" className="w-full h-full object-cover" />
+          </div>
+          <h2 className="text-3xl font-google font-bold text-gray-900 tracking-tight">
+            All Notifications
+          </h2>
+        </div>
         
         <div className="flex items-center gap-3 bg-google-bg px-4 py-2 rounded-xl border border-gray-200">
           <ListFilter size={18} className="text-gray-400" />

@@ -54,7 +54,7 @@ export default function App() {
             Campus Connect
           </h1>
           <p className="text-gray-500 font-medium max-w-md mx-auto text-lg leading-relaxed">
-            The official central hub for campus notifications, results, and events.
+            A Central API to fetch Notifications & Check Notification(According to the Priority).
           </p>
         </header>
 
@@ -79,7 +79,7 @@ export default function App() {
         </main>
         
         <footer className="mt-20 text-gray-400 text-sm font-google font-bold tracking-widest uppercase">
-          &copy; 2024 • Google Theme Perfected
+          &copy; This is Google Inspired website. 
         </footer>
       </div>
     </Router>

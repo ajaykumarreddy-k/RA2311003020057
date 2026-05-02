@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNotifications } from '../hooks/useNotifications';
 import NotificationCard from '../components/NotificationCard';
 import { AppNotification } from '../types';
-import { Loader2, Sparkles } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import priorityIcon from '../../Assets /Priority.gif';
 
 const WEIGHTS: Record<string, number> = { Placement: 3, Result: 2, Event: 1 };
 
@@ -22,8 +23,8 @@ export default function Priority() {
     <div className="p-8 md:p-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-google-yellow flex items-center justify-center text-white shadow-lg shadow-yellow-100">
-            <Sparkles size={28} fill="white" />
+          <div className="w-12 h-12 rounded-2xl bg-google-yellow flex items-center justify-center shadow-lg shadow-yellow-100 overflow-hidden">
+            <img src={priorityIcon} alt="Priority" className="w-full h-full object-cover" />
           </div>
           <h2 className="text-3xl font-google font-bold text-gray-900 tracking-tight">
             Priority Inbox
