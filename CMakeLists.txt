@@ -37,6 +37,7 @@ set(CORE_SOURCES
     src/core/multicore_benchmark.cpp
     src/core/stl_parser.cpp
     src/core/ansys_parser.cpp
+    src/core/embedded_sim.cpp
 )
 
 add_library(workbench_core STATIC ${CORE_SOURCES})
@@ -62,3 +63,31 @@ add_test(NAME test_multicore COMMAND test_multicore WORKING_DIRECTORY ${CMAKE_CU
 add_executable(test_parsers tests/test_parsers.cpp)
 target_link_libraries(test_parsers PRIVATE workbench_core)
 add_test(NAME test_parsers COMMAND test_parsers WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable(test_embedded tests/test_embedded.cpp)
+target_link_libraries(test_embedded PRIVATE workbench_core)
+add_test(NAME test_embedded COMMAND test_embedded WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Server executable (HTTP service)
+add_executable(workbench_server
+    src/server/server_main.cpp
+)
+target_include_directories(workbench_server PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/server
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party
+)
+target_link_libraries(workbench_server PRIVATE workbench_core Threads::Threads)
+if(WIN32)
+    target_link_libraries(workbench_server PRIVATE ws2_32)
+endif()
+
+# Launcher executable (Launch.exe)
+add_executable(Launch
+    src/launcher/launcher_main.cpp
+)
+if(WIN32)
+    # Silent Windows GUI application (no console popup)
+    set_target_properties(Launch PROPERTIES WIN32_EXECUTABLE TRUE)
+    target_link_libraries(Launch PRIVATE ws2_32 shell32)
+endif()
