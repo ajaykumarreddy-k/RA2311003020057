@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Engineering Workbench | PASS Science Works</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Local Vendored Three.js and OrbitControls (Offline, No CDN) -->
+    <script src="js/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+</head>
+<body>
+    <header class="top-nav">
+        <div class="brand">
+            <div class="brand-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">PASS Science Works</span>
+                <span class="brand-subtitle">Unified Engineering Workbench</span>
+            </div>
+        </div>
+        <nav class="tab-bar">
+            <button class="tab-btn active" data-tab="geometry-tab" id="btn-tab-geometry">
+                <span class="tab-icon">📐</span> Geometry & CAD
+            </button>
+            <button class="tab-btn" data-tab="thermal-tab" id="btn-tab-thermal">
+                <span class="tab-icon">🔥</span> Thermal Analysis & FEA
+            </button>
+            <button class="tab-btn" data-tab="performance-tab" id="btn-tab-performance">
+                <span class="tab-icon">⚡</span> Performance & Multicore
+            </button>
+            <button class="tab-btn" data-tab="hardware-tab" id="btn-tab-hardware">
+                <span class="tab-icon">🔌</span> Hardware <span class="badge-sim-small">SIMULATED</span>
+            </button>
+        </nav>
+        <div class="header-status">
+            <span class="status-indicator online" id="server-status-dot"></span>
+            <span class="status-label" id="server-status-text">Backend Online</span>
+        </div>
+    </header>
+
+    <main class="workbench-body">
+        <!-- ========================================================= -->
+        <!-- TAB 1: GEOMETRY & CAD VISUALIZATION -->
+        <!-- ========================================================= -->
+        <section id="geometry-tab" class="tab-pane active">
+            <div class="pane-layout">
+                <aside class="sidebar-controls">
+                    <div class="control-group">
+                        <h3>Model Sources</h3>
+                        <p class="section-desc">Load synthetic models or upload ASCII STL & ANSYS CSV datasets.</p>
+                        <div class="btn-stack">
+                            <button id="btn-load-stl" class="btn btn-primary">
+                                Load Synthetic STL Bracket
+                            </button>
+                            <button id="btn-load-ansys" class="btn btn-primary">
+                                Load Synthetic ANSYS Mesh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3>Custom File Upload</h3>
+                        <div class="file-drop-zone" id="file-drop-area">
+                            <input type="file" id="file-input" accept=".stl,.csv,.txt" style="display:none;">
+                            <label for="file-input" class="btn btn-outline" style="width:100%; text-align:center;">
+                                Select File (.stl / .csv)
+                            </label>
+                            <span class="drop-hint">ASCII STL or ANSYS Nodal CSV</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3>Viewport Controls</h3>
+                        <div class="btn-grid-2">
+                            <button id="btn-view-reset" class="btn btn-outline">Fit View</button>
+                            <button id="btn-toggle-wireframe" class="btn btn-outline">Wireframe: OFF</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group metadata-card" id="geo-metadata">
+                        <h4>Model Properties</h4>
+                        <div class="meta-row"><span>Type:</span> <strong id="geo-meta-type">None</strong></div>
+                        <div class="meta-row"><span>Elements / Points:</span> <strong id="geo-meta-count">0</strong></div>
+                        <div class="meta-row"><span>Bounding Box X:</span> <strong id="geo-meta-bbox-x">-</strong></div>
+                        <div class="meta-row"><span>Bounding Box Y:</span> <strong id="geo-meta-bbox-y">-</strong></div>
+                        <div class="meta-row"><span>Bounding Box Z:</span> <strong id="geo-meta-bbox-z">-</strong></div>
+                        <div class="meta-row" id="geo-temp-range-row" style="display:none;">
+                            <span>Temp Range:</span> <strong id="geo-meta-temp">-</strong>
+                        </div>
+                    </div>
+
+                    <div id="geo-inspection-panel" class="inspection-card" style="display:none;">
+                        <h4>Selected Node Inspection</h4>
+                        <div class="meta-row"><span>Node ID:</span> <strong id="insp-node-id">-</strong></div>
+                        <div class="meta-row"><span>Position (X, Y, Z):</span> <strong id="insp-node-pos">-</strong></div>
+                        <div class="meta-row"><span>Temperature:</span> <strong id="insp-node-temp" class="text-accent">-</strong></div>
+                    </div>
+
+                    <div id="geo-error-box" class="alert alert-error" style="display:none;"></div>
+                </aside>
+
+                <div class="viewport-container">
+                    <div id="threejs-canvas-wrapper" class="canvas-wrapper"></div>
+                    <div id="colormap-legend" class="colormap-legend" style="display:none;">
+                        <span class="legend-title">Temperature (°C)</span>
+                        <div class="legend-bar"></div>
+                        <div class="legend-labels">
+                            <span id="legend-min">20 °C</span>
+                            <span id="legend-mid">80 °C</span>
+                            <span id="legend-max">145 °C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 2: THERMAL ANALYSIS & FEA -->
+        <!-- ========================================================= -->
+        <section id="thermal-tab" class="tab-pane">
+            <div class="pane-layout">
+                <aside class="sidebar-controls">
+                    <div class="control-group">
+                        <h3>1D Steady-State Thermal FEA</h3>
+                        <p class="section-desc">Linear two-node rod heat conduction with internal heat source: <code>-d/dx(kA dT/dx) = qA</code>.</p>
+                        
+                        <div class="form-row">
+                            <label for="fea-length">Length L (m):</label>
+                            <input type="number" id="fea-length" value="1.0" step="0.1" min="0.001">
+                        </div>
+                        <div class="form-row">
+                            <label for="fea-area">Area A (m²):</label>
+                            <input type="number" id="fea-area" value="0.0001" step="0.00001" min="1e-8">
+                        </div>
+                        <div class="form-row">
+                            <label for="fea-k">Conductivity k (W/m·K):</label>
+                            <input type="number" id="fea-k" value="10.0" step="1.0" min="0.01">
+                        </div>
+                        <div class="form-row">
+                            <label for="fea-q">Source q (W/m³):</label>
+                            <input type="number" id="fea-q" value="10000.0" step="500.0">
+                        </div>
+                        <div class="form-row">
+                            <label for="fea-tleft">T(0) Boundary (°C):</label>
+                            <input type="number" id="fea-tleft" value="100.0" step="5.0">
+                        </div>
+                        <div class="form-row">
+                            <label for="fea-tright">T(L) Boundary (°C):</label>
+                            <input type="number" id="fea-tright" value="20.0" step="5.0">
+                        </div>
+                        <div class="form-row">
+                            <label for="fea-elements">Elements N:</label>
+                            <input type="number" id="fea-elements" value="10" min="1" max="1000">
+                        </div>
+
+                        <div class="btn-stack" style="margin-top: 15px;">
+                            <button id="btn-fea-solve" class="btn btn-primary">Solve Single Mesh (N)</button>
+                            <button id="btn-fea-convergence" class="btn btn-accent">Run Convergence Study (N=10,20,40,80)</button>
+                            <button id="btn-fea-download-csv" class="btn btn-outline" disabled>Download Solution CSV</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group" style="margin-top: 20px;">
+                        <h3>Backpropagation Derivation</h3>
+                        <p class="section-desc">Hidden layer <code>h=tanh(wx+b)</code>, output <code>y_hat=v*h+c</code>, target y=2.0.</p>
+                        <div class="btn-stack">
+                            <button id="btn-backprop-run" class="btn btn-primary">Run Gradient Check & 100 Steps</button>
+                            <button id="btn-backprop-download-csv" class="btn btn-outline" disabled>Download Backprop CSV</button>
+                        </div>
+                    </div>
+
+                    <div id="thermal-error-box" class="alert alert-error" style="display:none;"></div>
+                </aside>
+
+                <div class="content-display-area">
+                    <!-- FEA Results Section -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <h3>Thermal FEA Solution & Convergence Verification</h3>
+                            <span class="badge" id="fea-order-badge">Convergence Order: O(h²)</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <h4>Temperature Profile T(x) vs Exact Analytical Curve</h4>
+                                <div id="fea-profile-chart" class="svg-chart-wrapper"></div>
+                            </div>
+
+                            <div class="table-container" style="margin-top: 20px;">
+                                <h4>Convergence Table Across Meshes</h4>
+                                <table class="data-table" id="convergence-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Elements N</th>
+                                            <th>Element Size h (m)</th>
+                                            <th>Max Node Error (°C)</th>
+                                            <th>Max Midpoint Error (°C)</th>
+                                            <th>Observed Order p</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td colspan="5" style="text-align:center;">Click "Run Convergence Study" to compute</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backpropagation Results Section -->
+                    <div class="card result-card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <h3>Task 2: Backpropagation & Finite Difference Gradient Check</h3>
+                            <span class="badge badge-success" id="gradcheck-badge">Gradient Check: Ready</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <h4>Analytic vs Central Finite Difference Gradients (eps = 1e-6)</h4>
+                                <table class="data-table" id="gradcheck-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Analytic Gradient</th>
+                                            <th>Finite Difference (eps=1e-6)</th>
+                                            <th>Absolute Error</th>
+                                            <th>Tolerance (<= 1e-5)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td colspan="5" style="text-align:center;">Click "Run Gradient Check" to execute</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="chart-container" style="margin-top: 20px;">
+                                <h4>Loss J vs Training Step (100 Iterations)</h4>
+                                <div id="backprop-loss-chart" class="svg-chart-wrapper"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 3: PERFORMANCE & MULTICORE BENCHMARK -->
+        <!-- ========================================================= -->
+        <section id="performance-tab" class="tab-pane">
+            <div class="pane-layout">
+                <aside class="sidebar-controls">
+                    <div class="control-group">
+                        <h3>Multicore Benchmark Setup</h3>
+                        <p class="section-desc">Bounded worker pool with 1 warmup and 5 measured repetitions timing only compute.</p>
+                        
+                        <div class="form-row">
+                            <label for="bench-cases">Case Count:</label>
+                            <input type="number" id="bench-cases" value="500" min="50" max="5000" step="50">
+                        </div>
+                        <div class="form-row">
+                            <label for="bench-mesh">Mesh Size N:</label>
+                            <input type="number" id="bench-mesh" value="100" min="10" max="500">
+                        </div>
+                        <div class="form-row">
+                            <label for="bench-seed">RNG Seed:</label>
+                            <input type="number" id="bench-seed" value="42">
+                        </div>
+
+                        <div class="btn-stack" style="margin-top: 15px;">
+                            <button id="btn-bench-start" class="btn btn-primary">Start Benchmark</button>
+                            <button id="btn-bench-cancel" class="btn btn-danger" disabled>Cancel Job</button>
+                            <button id="btn-bench-download-csv" class="btn btn-outline" disabled>Download Benchmark CSV</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group metadata-card">
+                        <h4>System & Host Info</h4>
+                        <div class="meta-row"><span>Logical CPUs:</span> <strong id="sys-cores">-</strong></div>
+                        <div class="meta-row"><span>Compiler:</span> <strong id="sys-compiler">-</strong></div>
+                        <div class="meta-row"><span>Build Config:</span> <strong id="sys-build">-</strong></div>
+                        <div class="meta-row"><span>Optimization:</span> <strong id="sys-opt">-</strong></div>
+                        <div class="meta-row"><span>Speedup Assessable:</span> <strong id="sys-speedup-ok">-</strong></div>
+                    </div>
+
+                    <div id="bench-error-box" class="alert alert-error" style="display:none;"></div>
+                </aside>
+
+                <div class="content-display-area">
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <h3>Benchmark Execution & Scaling Metrics</h3>
+                            <span class="badge" id="bench-status-badge">Idle</span>
+                        </div>
+                        <div class="card-body">
+                            <!-- Progress bar -->
+                            <div class="progress-wrapper" id="bench-progress-wrapper" style="display:none;">
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" id="bench-progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <span class="progress-text" id="bench-progress-text">Executing worker pool... 0%</span>
+                            </div>
+
+                            <div class="verification-banner" id="bench-verification-banner" style="display:none;">
+                                <span class="verif-icon">✓</span>
+                                <span class="verif-text" id="bench-verification-text">Serial vs Parallel Verification: Max Error <= 1e-8</span>
+                            </div>
+
+                            <div class="table-container" style="margin-top: 20px;">
+                                <h4>Timing Across Worker Counts (5 Repetitions)</h4>
+                                <table class="data-table" id="bench-results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Workers (p)</th>
+                                            <th>Reps (ms)</th>
+                                            <th>Median Compute (ms)</th>
+                                            <th>Speedup S_p (T1/Tp)</th>
+                                            <th>Efficiency E_p</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td colspan="5" style="text-align:center;">No benchmark run yet. Click "Start Benchmark".</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="chart-container" style="margin-top: 20px;">
+                                <h4>Speedup vs Ideal Linear Scaling</h4>
+                                <div id="bench-speedup-chart" class="svg-chart-wrapper"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 4: EMBEDDED INTEGRATION (SIMULATED) -->
+        <!-- ========================================================= -->
+        <section id="hardware-tab" class="tab-pane">
+            <div class="pane-header-banner">
+                <div class="sim-banner-pill">
+                    <span class="pulse-dot"></span> SIMULATED HARDWARE INTEGRATION
+                </div>
+                <p>Telemetry, register access, and timeout fault injections are mediated through C++ mock adapters representing physical edge compute and JTAG instrumentation.</p>
+            </div>
+
+            <div class="hardware-grid">
+                <!-- Device 1: MCU -->
+                <div class="card device-card" id="card-mcu">
+                    <div class="card-header">
+                        <div class="dev-title">
+                            <span class="dev-type-tag">MCU</span>
+                            <h3>STM32H743ZI Cortex-M7</h3>
+                        </div>
+                        <span class="badge dev-status-badge" id="mcu-status-badge">DISCONNECTED</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="dev-transport">Transport: <strong>USB CDC-ACM (115200 baud)</strong></p>
+                        
+                        <div class="dev-actions">
+                            <button class="btn btn-sm btn-primary" id="btn-mcu-connect">Connect</button>
+                            <button class="btn btn-sm btn-outline" id="btn-mcu-disconnect" disabled>Disconnect</button>
+                            <button class="btn btn-sm btn-danger" id="btn-mcu-fail" disabled>Simulate Timeout</button>
+                            <button class="btn btn-sm btn-accent" id="btn-mcu-recover" disabled>Auto-Recover</button>
+                        </div>
+
+                        <div class="dev-telemetry-box" id="mcu-telemetry-box">
+                            <div class="telemetry-item">
+                                <span class="t-label">Core Temperature</span>
+                                <span class="t-value" id="mcu-temp">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">VCC Core (1.2V)</span>
+                                <span class="t-value" id="mcu-vcc-core">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">VCC I/O (3.3V)</span>
+                                <span class="t-value" id="mcu-vcc-io">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Core Clock</span>
+                                <span class="t-value" id="mcu-clock">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Samples Processed</span>
+                                <span class="t-value" id="mcu-samples">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Firmware / Watchdog</span>
+                                <span class="t-value" id="mcu-fw">-</span>
+                            </div>
+                        </div>
+
+                        <div class="dev-error-msg" id="mcu-error-msg" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- Device 2: FPGA -->
+                <div class="card device-card" id="card-fpga">
+                    <div class="card-header">
+                        <div class="dev-title">
+                            <span class="dev-type-tag">FPGA</span>
+                            <h3>Xilinx Artix-7 XC7A100T</h3>
+                        </div>
+                        <span class="badge dev-status-badge" id="fpga-status-badge">DISCONNECTED</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="dev-transport">Transport: <strong>SPI / Memory-Mapped PCIe (10 MHz)</strong></p>
+                        
+                        <div class="dev-actions">
+                            <button class="btn btn-sm btn-primary" id="btn-fpga-connect">Connect</button>
+                            <button class="btn btn-sm btn-outline" id="btn-fpga-disconnect" disabled>Disconnect</button>
+                            <button class="btn btn-sm btn-danger" id="btn-fpga-fail" disabled>Simulate CRC Error</button>
+                            <button class="btn btn-sm btn-accent" id="btn-fpga-recover" disabled>Auto-Recover</button>
+                        </div>
+
+                        <div class="dev-telemetry-box" id="fpga-telemetry-box">
+                            <div class="telemetry-item">
+                                <span class="t-label">Die Temperature</span>
+                                <span class="t-value" id="fpga-temp">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">VCC Internal (1.0V)</span>
+                                <span class="t-value" id="fpga-vcc-int">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">VCC Aux (1.8V)</span>
+                                <span class="t-value" id="fpga-vcc-aux">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">LUT / DSP Usage</span>
+                                <span class="t-value" id="fpga-usage">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Matrix Accelerator</span>
+                                <span class="t-value" id="fpga-accel">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">SysMon Status</span>
+                                <span class="t-value" id="fpga-sysmon">-</span>
+                            </div>
+                        </div>
+
+                        <div class="dev-error-msg" id="fpga-error-msg" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- Device 3: JTAG -->
+                <div class="card device-card" id="card-jtag">
+                    <div class="card-header">
+                        <div class="dev-title">
+                            <span class="dev-type-tag">JTAG</span>
+                            <h3>FTDI FT2232H MPSSE Bridge</h3>
+                        </div>
+                        <span class="badge dev-status-badge" id="jtag-status-badge">DISCONNECTED</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="dev-transport">Transport: <strong>USB 2.0 High-Speed MPSSE Engine</strong></p>
+                        
+                        <div class="dev-actions">
+                            <button class="btn btn-sm btn-primary" id="btn-jtag-connect">Connect</button>
+                            <button class="btn btn-sm btn-outline" id="btn-jtag-disconnect" disabled>Disconnect</button>
+                            <button class="btn btn-sm btn-danger" id="btn-jtag-fail" disabled>Simulate Parity Error</button>
+                            <button class="btn btn-sm btn-accent" id="btn-jtag-recover" disabled>Auto-Recover</button>
+                        </div>
+
+                        <div class="dev-telemetry-box" id="jtag-telemetry-box">
+                            <div class="telemetry-item">
+                                <span class="t-label">TCK Clock Frequency</span>
+                                <span class="t-value" id="jtag-tck">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Target VREF Sensed</span>
+                                <span class="t-value" id="jtag-vref">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">TAP State Machine</span>
+                                <span class="t-value" id="jtag-tap">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Scanned Chain Targets</span>
+                                <span class="t-value" id="jtag-targets">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Chain Target 0</span>
+                                <span class="t-value" id="jtag-dev0">-</span>
+                            </div>
+                            <div class="telemetry-item">
+                                <span class="t-label">Chain Target 1</span>
+                                <span class="t-value" id="jtag-dev1">-</span>
+                            </div>
+                        </div>
+
+                        <div class="dev-error-msg" id="jtag-error-msg" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bottom-bar">
+        <span>Unified Engineering Workbench v1.0.0 | PASS Science Works Assessment Prototype</span>
+        <span>Local Port: <code id="footer-port">8080</code> | C++17 Core Engine</span>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
