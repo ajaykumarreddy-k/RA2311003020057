@@ -18,6 +18,7 @@ All external libraries are header-only or client-side JavaScript assets, fully v
 | **doctest** | v2.4.11 | `third_party/doctest.h` | **MIT License** | Copyright (c) 2016-2023 Viktor Kirilov | Lightweight, fast C++ unit testing framework for CTest integration |
 | **Three.js** | r128 | `web/js/three.min.js` | **MIT License** | Copyright (c) 2010-2021 Three.js Authors | Client-side WebGL 3D rendering engine |
 | **OrbitControls** | r128 | `web/js/OrbitControls.js` | **MIT License** | Copyright (c) 2010-2021 Three.js Authors | Camera orbit, zoom, and pan controls for 3D viewport |
+| **Inter Font** | v4.1 | `web/assets/fonts/` | **SIL Open Font License 1.1** | Copyright (c) 2016-2024 Rasmus Andersson | Geometric sans-serif font (open-source alternative to Google Sans) |
 
 ---
 
