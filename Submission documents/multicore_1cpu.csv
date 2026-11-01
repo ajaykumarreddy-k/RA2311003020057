@@ -1,0 +1,8 @@
+# Multicore Benchmark Results
+# Logical CPUs: 1
+# Compiler: GCC 13.3.0
+# Build Config: Debug (Optimized (-O2 / -O3))
+# Cases: 500, Mesh size N: 100, Seed: 42
+# Verification Max Abs Difference: 0.0000e+00 (Passed: YES)
+workers,rep1_ms,rep2_ms,rep3_ms,rep4_ms,rep5_ms,median_ms,speedup,efficiency
+1,2.2483,2.3058,2.5483,2.2936,2.2562,2.2936,1.0000,1.0000

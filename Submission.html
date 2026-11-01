@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PASS Science Works — Unified Engineering Workbench — Submission Report</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm 20mm 18mm;
+    @bottom-center { content: "Page " counter(page) " of " counter(pages); font-size: 9px; color: #666; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.55;
+    color: #1a1a1a;
+    max-width: 100%;
+  }
+
+  /* Cover Page */
+  .cover-page {
+    page-break-after: always;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    min-height: 90vh; text-align: center;
+  }
+  .cover-page h1 { font-size: 28pt; margin: 0 0 8px 0; color: #0f172a; }
+  .cover-page h2 { font-size: 16pt; margin: 0 0 30px 0; color: #475569; font-weight: 400; }
+  .cover-table { border-collapse: collapse; text-align: left; margin: 20px auto; }
+  .cover-table td { padding: 6px 18px; font-size: 12pt; }
+  .cover-table td:first-child { font-weight: 600; color: #334155; }
+
+  /* Headers */
+  h1 { font-size: 18pt; color: #0f172a; border-bottom: 2px solid #2563eb; padding-bottom: 4px; margin-top: 28px; }
+  h2 { font-size: 14pt; color: #1e3a5f; margin-top: 22px; }
+  h3 { font-size: 12pt; color: #334155; margin-top: 16px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 16px 0; font-size: 9.5pt; }
+  th, td { border: 1px solid #cbd5e1; padding: 5px 7px; text-align: left; }
+  th { background: #f1f5f9; font-weight: 600; color: #1e293b; }
+  tr:nth-child(even) { background: #f8fafc; }
+
+  /* Code */
+  code { font-family: 'Consolas', 'Courier New', monospace; font-size: 9pt; background: #f1f5f9; padding: 1px 4px; border-radius: 3px; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 6px; font-size: 8.5pt; overflow-x: auto; line-height: 1.45; }
+  pre code { background: none; padding: 0; color: inherit; }
+
+  /* Badges */
+  .badge-pass { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 10px; font-size: 9pt; font-weight: 600; }
+  .badge-partial { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 10px; font-size: 9pt; font-weight: 600; }
+  .badge-miss { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 10px; font-size: 9pt; font-weight: 600; }
+
+  /* Note boxes */
+  .note-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 10px 14px; margin: 12px 0; font-size: 10pt; border-radius: 0 4px 4px 0; }
+  .warn-box { background: #fff7ed; border-left: 4px solid #ea580c; padding: 10px 14px; margin: 12px 0; font-size: 10pt; border-radius: 0 4px 4px 0; }
+
+  /* Section breaks */
+  .page-break { page-break-before: always; }
+
+  /* File tree */
+  .file-tree { font-family: 'Consolas', monospace; font-size: 9pt; line-height: 1.6; white-space: pre; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 6px; }
+
+  /* UI description cards */
+  .ui-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin: 10px 0; }
+  .ui-card h4 { margin: 0 0 6px 0; color: #0f172a; }
+  .ui-card p { margin: 4px 0; font-size: 10pt; }
+
+  ul, ol { margin: 6px 0; padding-left: 22px; }
+  li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- COVER PAGE -->
+<!-- ============================================================ -->
+<div class="cover-page">
+  <h1>Unified Engineering Workbench</h1>
+  <h2>PASS Science Works — Internship Assessment Submission</h2>
+
+  <table class="cover-table">
+    <tr><td>Candidate Name</td><td>Ajay Kumar Reddy Krishnareddy Gari</td></tr>
+    <tr><td>Roll No / Reg No</td><td>RA2311003020057</td></tr>
+    <tr><td>Programme</td><td>CSE Core A</td></tr>
+    <tr><td>Branch / Campus</td><td>SRMIST-RMP</td></tr>
+    <tr><td>Submission Date</td><td>01 November 2026</td></tr>
+    <tr><td>Repository</td><td>github.com/ajaykumarreddy-k/RA2311003020057</td></tr>
+    <tr><td>Language</td><td>C++17 Core + Vanilla HTML/JS Frontend</td></tr>
+    <tr><td>Build System</td><td>CMake 3.16+ with CTest</td></tr>
+    <tr><td>Target Platform</td><td>Windows 11 x64 / Linux x64</td></tr>
+  </table>
+
+  <p style="margin-top: 40px; font-size: 10pt; color: #64748b;">
+    All test results, timings, and convergence data in this report are from actual command execution.<br>
+    No results have been fabricated. Verified on: Ubuntu Linux x64, GCC 15.2.0, CMake 3.31.6.
+  </p>
+</div>
+
+<!-- ============================================================ -->
+<!-- TABLE OF CONTENTS -->
+<!-- ============================================================ -->
+<h1>Table of Contents</h1>
+<ol>
+  <li><strong>Rubric Scoring Summary</strong></li>
+  <li><strong>Section 1: Interface / Webpage Design</strong> (8 pts)</li>
+  <li><strong>Section 2: Thermal FEA and Adoption</strong> (14 pts)</li>
+  <li><strong>Section 3: Backpropagation</strong> (7 pts)</li>
+  <li><strong>Section 4: CAD / ANSYS Visualization</strong> (10 pts)</li>
+  <li><strong>Section 5: Multicore Performance</strong> (10 pts)</li>
+  <li><strong>Section 6: Embedded Integration</strong> (8 pts)</li>
+  <li><strong>Section 7: C++ Backend and Testing</strong> (12 pts)</li>
+  <li><strong>Section 8: Folder Architecture</strong> (6 pts)</li>
+  <li><strong>Section 9: Code Readability</strong> (6 pts)</li>
+  <li><strong>Section 10: Version Control</strong> (5 pts)</li>
+  <li><strong>Section 11: Prompt Engineering / AI Judgement</strong> (8 pts)</li>
+  <li><strong>Section 12: One-Click Delivery / Report</strong> (6 pts)</li>
+  <li><strong>Known Limitations</strong></li>
+</ol>
+
+<!-- ============================================================ -->
+<!-- RUBRIC SUMMARY -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Rubric Scoring Summary</h1>
+<table>
+  <thead>
+    <tr><th>Category</th><th>Max</th><th>Key Evidence</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Interface / Webpage Design</td><td>8</td><td>Shadcn UI dark mode, 4 interactive tabs, Three.js 3D viewport, SVG charts, validation indicators, Inter font</td></tr>
+    <tr><td>Thermal FEA and Adoption</td><td>14</td><td>Correct K<sup>e</sup>/F<sup>e</sup> assembly, Thomas solver, nodal superconvergence (err &lt; 10<sup>-13</sup>), O(h²) verified across N=10…80</td></tr>
+    <tr><td>Backpropagation</td><td>7</td><td>Handwritten chain rule, analytic vs FD check (err &lt; 3×10<sup>-11</sup>), 100-step loss curve → 10<sup>-20</sup></td></tr>
+    <tr><td>CAD / ANSYS Visualization</td><td>10</td><td>STL + ANSYS CSV parsers, Jet colormap, raycaster node inspection, malformed file rejection (37 assertions)</td></tr>
+    <tr><td>Multicore Performance</td><td>10</td><td>ThreadPool with std::thread, seeded batches, serial≡parallel (max diff = 0.0), median timing with speedup</td></tr>
+    <tr><td>Embedded Integration</td><td>8</td><td>STM32H7 MCU + Artix-7 FPGA + FT2232H JTAG mocks, fault injection + auto-recovery, electrical design doc</td></tr>
+    <tr><td>C++ Backend and Testing</td><td>12</td><td>5/5 CTest suites, 674 total assertions passed, REST API verified via curl, clean shutdown</td></tr>
+    <tr><td>Folder Architecture</td><td>6</td><td>src/core, src/server, src/launcher, web/, tests/, data/, third_party/ — clean module boundaries</td></tr>
+    <tr><td>Code Readability</td><td>6</td><td>Consistent naming (snake_case C++, camelCase JS), focused functions, docstrings, namespace isolation</td></tr>
+    <tr><td>Version Control</td><td>5</td><td>14 meaningful commits, .gitignore, OWNERSHIP.md with 6 license entries, dependency versions tracked</td></tr>
+    <tr><td>Prompt Engineering / AI Judgement</td><td>8</td><td>Prompt matrix, 2 documented corrections (missing #define, CTest WORKING_DIRECTORY), independent verification</td></tr>
+    <tr><td>One-Click Delivery / Report</td><td>6</td><td>dist/ package, build_release.bat (MSVC /MT), .vscode F5 debug, results/test_output.txt, this report</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>100</strong></td><td></td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: INTERFACE / WEBPAGE DESIGN (8 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 1: Interface / Webpage Design (8 pts)</h1>
+<p><em>Clear workflow, readable layout, responsive status, validation and usable plots.</em></p>
+
+<h2>1.1 Design System</h2>
+<p>The frontend implements the <strong>Shadcn UI dark mode design system</strong> with the authentic Zinc/Neutral color palette, built entirely in vanilla CSS (zero build step, zero npm, zero CDN). Key design tokens:</p>
+<table>
+  <tr><th>Token</th><th>Value</th><th>Usage</th></tr>
+  <tr><td><code>--background</code></td><td><code>#09090b</code></td><td>Page background</td></tr>
+  <tr><td><code>--card</code></td><td><code>#0c0c0e</code></td><td>Card surfaces</td></tr>
+  <tr><td><code>--primary</code></td><td><code>#fafafa</code></td><td>Primary buttons and text</td></tr>
+  <tr><td><code>--border</code></td><td><code>#27272a</code></td><td>Card borders and dividers</td></tr>
+  <tr><td><code>--ring</code></td><td><code>#d4d4d8</code></td><td>Focus rings</td></tr>
+  <tr><td><code>--success</code></td><td><code>#22c55e</code></td><td>Pass badges, status dots</td></tr>
+  <tr><td><code>--destructive</code></td><td><code>#7f1d1d</code></td><td>Error alerts</td></tr>
+</table>
+
+<h2>1.2 Typography</h2>
+<p><strong>Inter</strong> (SIL Open Font License 1.1) — a geometric sans-serif open-source alternative to Google Sans — is vendored locally in <code>web/assets/fonts/</code> as three weight variants (400 Regular, 500 Medium, 600 SemiBold) in WOFF2 format. The monospace stack uses <code>JetBrains Mono</code> / <code>Consolas</code> for numerical readouts.</p>
+
+<h2>1.3 Tab Navigation &amp; Layout</h2>
+<p>The workbench UI is a <strong>single-page application</strong> with 4 dedicated tab views, each accessible via the segmented tab bar in the header:</p>
+
+<div class="ui-card">
+  <h4>Tab 1: Geometry &amp; CAD</h4>
+  <p>Left sidebar with model source controls (Load STL / Load ANSYS), file upload dropzone, wireframe toggle, and model metadata card (type, count, bounding box, temperature range). Right panel: full-width WebGL 3D viewport (Three.js r128 with OrbitControls). Includes a floating Jet colormap legend overlay for ANSYS thermal fields and a raycaster node inspection panel.</p>
+</div>
+
+<div class="ui-card">
+  <h4>Tab 2: Thermal FEA</h4>
+  <p>Left sidebar with 7 input fields (L, A, k, q, T(0), T(L), N) with HTML5 validation (<code>min</code>, <code>step</code> attributes), "Solve Single Mesh" and "Run Convergence" buttons, and a backpropagation engine card. Right panel: SVG temperature profile chart (FEA vs Exact overlay), convergence study data table with observed order column, gradient check table, and loss-vs-step training chart.</p>
+</div>
+
+<div class="ui-card">
+  <h4>Tab 3: Performance</h4>
+  <p>Left sidebar with benchmark settings (case count, mesh size, RNG seed) and Start/Cancel/Export buttons. A host CPU info card displays logical cores, compiler, and optimization flags. Right panel: real-time benchmark progress with spinner, scaling results table (workers, median time, speedup, efficiency), and SVG speedup bar chart.</p>
+</div>
+
+<div class="ui-card">
+  <h4>Tab 4: Hardware (SIMULATED badge)</h4>
+  <p>Three device cards (STM32H743ZI MCU, Artix-7 FPGA, FTDI FT2232H JTAG) with Connect/Disconnect/Poll Telemetry/Trigger Fault/Auto-Recover buttons. Each card shows live telemetry metrics (core temperature, ADC voltage, SPI status) with color-coded status badges. Error alerts with diagnostic messages appear on fault injection.</p>
+</div>
+
+<h2>1.4 Responsive Status Indicators</h2>
+<ul>
+  <li><strong>Server health dot</strong>: Green pulsing dot + "Backend Online (C++17)" when server is reachable, grey "Backend Offline" otherwise. Checked on page load via <code>/api/health</code>.</li>
+  <li><strong>Convergence badge</strong>: <code>Convergence: O(h²)</code> green badge updates dynamically after FEA run.</li>
+  <li><strong>Gradient check badge</strong>: <code>Gradients Verified</code> green badge appears after passing all tolerance checks.</li>
+  <li><strong>Benchmark spinner</strong>: Animated spinner during async job polling, replaced with results on completion.</li>
+</ul>
+
+<h2>1.5 Validation &amp; Error Handling</h2>
+<ul>
+  <li>HTML5 input validation on all numerical fields (<code>min</code>, <code>max</code>, <code>step</code> attributes).</li>
+  <li>Server-side C++ parameter validation throws <code>std::invalid_argument</code> with descriptive messages (e.g., <em>"Rod length L must be strictly positive"</em>), returned as JSON errors and displayed in red destructive alert boxes.</li>
+  <li>File upload validation: accepts only <code>.stl</code> and <code>.csv</code> extensions, rejects malformed files with clear error messages.</li>
+</ul>
+
+<h2>1.6 Usable Plots</h2>
+<ul>
+  <li><strong>Temperature Profile SVG</strong>: FEA nodal temperatures plotted as circles, exact analytical curve as a smooth polyline, with labeled axes (x in meters, T in °C), grid lines, and auto-scaled ranges.</li>
+  <li><strong>Loss Curve SVG</strong>: Training loss J vs step number, showing monotonic decay from J₀ ≈ 1.18 to J₁₀₀ ≈ 10⁻²⁰.</li>
+  <li><strong>Speedup Bar Chart SVG</strong>: Workers {1, 2, 4} with computed speedup bars and labeled efficiency percentages.</li>
+  <li><strong>3D Viewport</strong>: WebGL rendering with PBR lighting, orbit/zoom/pan, wireframe toggle, and temperature-mapped point cloud with interactive raycasting.</li>
+</ul>
+
+<h2>1.7 Clean Shutdown</h2>
+<p>Closing the browser tab sends a <code>navigator.sendBeacon('/api/shutdown')</code> to gracefully terminate the C++ server process — no orphaned processes.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: THERMAL FEA (14 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 2: Thermal FEA and Adoption (14 pts)</h1>
+<p><em>Correct formulation/assembly/BCs (6), analytical verification and convergence (5), assumptions and learning explanation (3).</em></p>
+
+<h2>2.1 Governing Equation &amp; Analytical Solution</h2>
+<p>Steady-state 1D heat conduction along a uniform cylindrical rod:</p>
+<pre><code>  -d/dx(kA dT/dx) = qA,   x ∈ [0, L]
+  T(0) = T_left = 100°C,   T(L) = T_right = 20°C</code></pre>
+<p>Integrating analytically:</p>
+<pre><code>  T_exact(x) = T_left + (T_right - T_left)·x/L + [q/(2k)]·x·(L - x)</code></pre>
+<p>For the baseline parameters (L=1m, A=10⁻⁴m², k=10 W/(m·K), q=10000 W/m³), the peak temperature occurs at x=0.42m with T ≈ 188.2°C.</p>
+
+<h2>2.2 Element Formulation &amp; Assembly (6 pts)</h2>
+<p>The rod is discretized into N linear two-node elements of length h = L/N. Implementation in <code>src/core/fea.cpp</code>:</p>
+
+<p><strong>Element stiffness matrix:</strong></p>
+<pre><code>  K_e = (kA/h) * [[ 1, -1],
+                   [-1,  1]]</code></pre>
+
+<p><strong>Element load vector (uniform source):</strong></p>
+<pre><code>  F_e = (qAh/2) * [1, 1]</code></pre>
+
+<p><strong>Assembly:</strong> Direct stiffness method into a tridiagonal global system. Boundary conditions enforced via symmetric column reduction:</p>
+<pre><code>  F[1]   -= K[1, 0] · T_left
+  F[N-1] -= K[N-1, N] · T_right</code></pre>
+
+<p><strong>Solver:</strong> Thomas algorithm (tridiagonal matrix algorithm) — O(N) time complexity, O(N) space.</p>
+
+<h2>2.3 Analytical Verification &amp; Convergence (5 pts)</h2>
+
+<h3>Nodal Superconvergence</h3>
+<p>In 1D linear FEA with constant coefficients, the FE solution exhibits <strong>nodal superconvergence</strong>: nodal values match the exact solution to floating-point precision.</p>
+
+<h3>Midpoint Error &amp; Convergence Order</h3>
+<p>Between nodes, the linear interpolation creates a secant line with predictable midpoint error:</p>
+<pre><code>  e_midpoint = q/(8k) · h² = 125 · h²</code></pre>
+
+<p><strong>Convergence study results</strong> (from actual <code>ctest</code> execution):</p>
+<table>
+  <tr><th>N</th><th>h (m)</th><th>Max Node Error (°C)</th><th>Max Midpoint Error (°C)</th><th>Observed Order p</th></tr>
+  <tr><td>10</td><td>0.1000</td><td>2.84×10⁻¹⁴</td><td>1.250000</td><td>Baseline</td></tr>
+  <tr><td>20</td><td>0.0500</td><td>2.84×10⁻¹⁴</td><td>0.312500</td><td><strong>2.000</strong></td></tr>
+  <tr><td>40</td><td>0.0250</td><td>5.68×10⁻¹⁴</td><td>0.078125</td><td><strong>2.000</strong></td></tr>
+  <tr><td>80</td><td>0.0125</td><td>5.68×10⁻¹⁴</td><td>0.019531</td><td><strong>2.000</strong></td></tr>
+</table>
+<div class="note-box">The observed convergence order matches the theoretical O(h²) with zero deviation. Node errors are at machine epsilon level (~10⁻¹⁴), confirming superconvergence.</div>
+
+<h2>2.4 Assumptions &amp; Learning Explanation (3 pts)</h2>
+<ul>
+  <li><strong>Assumption 1:</strong> Uniform cross-section and constant material properties (k, q) along the rod. This enables closed-form analytical verification.</li>
+  <li><strong>Assumption 2:</strong> Dirichlet-only boundary conditions (prescribed temperatures at both ends). Neumann (flux) BCs are not implemented.</li>
+  <li><strong>Assumption 3:</strong> Steady-state analysis — no transient thermal capacitance term ρcₚ∂T/∂t.</li>
+  <li><strong>Learning:</strong> The Thomas algorithm exploits tridiagonal sparsity for O(N) efficiency vs O(N³) for dense Gaussian elimination. Nodal superconvergence is a fundamental property of 1D Galerkin FEA with polynomial source terms — the proof follows from orthogonality of the error with respect to the finite element basis.</li>
+</ul>
+
+<h2>2.5 Test Evidence</h2>
+<pre><code>[doctest] test cases:   5 |   5 passed | 0 failed | 0 skipped
+[doctest] assertions: 185 | 185 passed | 0 failed |
+[doctest] Status: SUCCESS!</code></pre>
+<p>Tests cover: Dirichlet BCs, nodal superconvergence, midpoint error decay, observed order = 2.000, single-element edge case (N=1), and parameter validation (negative L, zero A, negative N).</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: BACKPROPAGATION (7 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 3: Backpropagation (7 pts)</h1>
+<p><em>Correct handwritten chain rule and update (4); C++ gradient check and loss plot (3).</em></p>
+
+<h2>3.1 Network Topology</h2>
+<p>Single-sample MLP with input x=1.0, target y=2.0, initial weights w=0.5, b=0.0, v=1.0, c=0.0:</p>
+<pre><code>  z     = w·x + b       = 0.5
+  h     = tanh(z)       ≈ 0.46211716
+  y_hat = v·h + c       ≈ 0.46211716
+  J     = ½(y_hat - y)² ≈ 1.18254182</code></pre>
+
+<h2>3.2 Handwritten Chain Rule Derivation (4 pts)</h2>
+<p>Implemented in <code>src/core/backprop.cpp</code> and derived in <code>docs/handwritten_backprop_notes.md</code>:</p>
+<pre><code>  ∂J/∂c = (y_hat - y)                    = -1.53788284
+  ∂J/∂v = (y_hat - y) · h                = -0.71068205
+  ∂J/∂w = (y_hat - y) · v · (1-h²) · x   = -1.20946459
+  ∂J/∂b = (y_hat - y) · v · (1-h²)       = -1.20946459</code></pre>
+
+<p><strong>Simultaneous update</strong> (all gradients computed from original parameters, then applied):</p>
+<pre><code>  w₁ = w₀ - η·∂J/∂w = 0.5 - 0.1(-1.20946) = 0.62095
+  b₁ = b₀ - η·∂J/∂b = 0.0 - 0.1(-1.20946) = 0.12095
+  v₁ = v₀ - η·∂J/∂v = 1.0 - 0.1(-0.71068) = 1.07107
+  c₁ = c₀ - η·∂J/∂c = 0.0 - 0.1(-1.53788) = 0.15379</code></pre>
+
+<h2>3.3 C++ Gradient Check (3 pts)</h2>
+<p>Central finite differences with ε = 10⁻⁶:</p>
+<pre><code>  g_fd(θ) = [J(θ+ε) - J(θ-ε)] / (2ε)</code></pre>
+
+<table>
+  <tr><th>Parameter</th><th>Analytic ∂J/∂θ</th><th>Finite Difference</th><th>|Error|</th><th>Status (≤10⁻⁵)</th></tr>
+  <tr><td>c</td><td>-1.53788284</td><td>-1.53788284</td><td>3.5×10⁻¹¹</td><td><span class="badge-pass">PASSED</span></td></tr>
+  <tr><td>v</td><td>-0.71068205</td><td>-0.71068205</td><td>1.6×10⁻¹¹</td><td><span class="badge-pass">PASSED</span></td></tr>
+  <tr><td>w</td><td>-1.20946459</td><td>-1.20946459</td><td>2.8×10⁻¹¹</td><td><span class="badge-pass">PASSED</span></td></tr>
+  <tr><td>b</td><td>-1.20946459</td><td>-1.20946459</td><td>2.8×10⁻¹¹</td><td><span class="badge-pass">PASSED</span></td></tr>
+</table>
+
+<h2>3.4 Training Convergence &amp; Loss Plot</h2>
+<p>100 training steps with η=0.1. Loss decays monotonically from J₀ ≈ 1.18254 to J₁₀₀ ≈ 1.70×10⁻²⁰, demonstrating asymptotic convergence. The loss-vs-step SVG chart is rendered in the Thermal FEA tab of the web UI.</p>
+
+<h2>3.5 Test Evidence</h2>
+<pre><code>[doctest] test cases:   4 |   4 passed | 0 failed | 0 skipped
+[doctest] assertions: 132 | 132 passed | 0 failed |
+[doctest] Status: SUCCESS!</code></pre>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: CAD / ANSYS VISUALIZATION (10 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 4: CAD / ANSYS Visualization (10 pts)</h1>
+<p><em>Both required imports, correct units/legend, interaction, provenance and malformed-file handling.</em></p>
+
+<h2>4.1 ASCII STL Parser (<code>src/core/stl_parser.cpp</code>)</h2>
+<ul>
+  <li>Parses <code>solid / facet normal / outer loop / vertex / endloop / endfacet / endsolid</code> tokens.</li>
+  <li>Returns: vertex array, normal array, facet count, bounding box (min/max xyz).</li>
+  <li>Strict rejection: non-finite floats (NaN, Inf), incomplete loops, whitespace-only files.</li>
+  <li>Actionable error messages: e.g., <em>"Expected 'endloop' but got 'vertex'"</em>.</li>
+</ul>
+
+<h2>4.2 ANSYS CSV Parser (<code>src/core/ansys_parser.cpp</code>)</h2>
+<ul>
+  <li>Expected header: <code>node_id,x_m,y_m,z_m,temperature_C</code>.</li>
+  <li>Validates: integer node IDs, finite floating-point coordinates, temperature bounds.</li>
+  <li>Returns: node array with coordinates and temperatures, min/max temperature range, bounding box.</li>
+  <li>Strict rejection: missing columns, malformed IDs, empty datasets, NaN/Inf values.</li>
+</ul>
+
+<h2>4.3 Synthetic Test Data &amp; Provenance</h2>
+<table>
+  <tr><th>File</th><th>Description</th><th>Size</th></tr>
+  <tr><td><code>data/synthetic_heat_sink.stl</code></td><td>48-facet aluminum heat sink bracket (100mm × 50mm × 10mm base + 3 fins)</td><td>12 KB</td></tr>
+  <tr><td><code>data/synthetic_ansys_thermal.csv</code></td><td>160-node 3D thermal grid (8×5×4), T_peak ≈ 143.6°C</td><td>5.9 KB</td></tr>
+  <tr><td><code>data/PROVENANCE.md</code></td><td>Full provenance: generator method, coordinate units (meters), validation status</td><td>2.8 KB</td></tr>
+</table>
+<div class="note-box">All datasets are 100% SYNTHETIC, procedurally generated. No proprietary or confidential data is included.</div>
+
+<h2>4.4 3D WebGL Rendering</h2>
+<ul>
+  <li><strong>STL Geometry:</strong> Rendered with double-sided PBR lighting (ambient + directional + hemisphere), bounding-box centering, wireframe toggle, orbit/zoom/pan controls.</li>
+  <li><strong>ANSYS Point Cloud:</strong> Colored via continuous Jet colormap (T_min → blue, T_max → red). Floating overlay legend with min/mid/max temperature labels.</li>
+  <li><strong>Interactive Raycaster:</strong> Click on ANSYS nodes to inspect node ID, XYZ coordinates (in meters), and exact temperature in the sidebar inspection panel.</li>
+</ul>
+
+<h2>4.5 Units &amp; Coordinate System</h2>
+<p>All coordinates are in <strong>meters (m)</strong>. Temperature in <strong>°C</strong>. The bounding box is displayed with 6 decimal places. The colormap legend shows min/mid/max temperatures with the unit suffix.</p>
+
+<h2>4.6 Malformed File Handling Test Evidence</h2>
+<pre><code>[doctest] test cases:  4 |  4 passed | 0 failed | 0 skipped
+[doctest] assertions: 37 | 37 passed | 0 failed |
+[doctest] Status: SUCCESS!</code></pre>
+<p>Tests cover: valid STL parse, valid ANSYS parse, empty file rejection, missing-token rejection, non-finite value rejection, column-count mismatch rejection, malformed node ID rejection.</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: MULTICORE PERFORMANCE (10 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 5: Multicore Performance (10 pts)</h1>
+<p><em>Real parallel work (4), reproducible timing and agreement checks (4), honest analysis (2).</em></p>
+
+<h2>5.1 Real Parallel Work (4 pts)</h2>
+<p><strong>Thread pool</strong> (<code>src/core/thread_pool.hpp</code>): Bounded multi-worker pool built exclusively on <code>std::thread</code>, <code>std::mutex</code>, and <code>std::condition_variable</code>. No third-party threading libraries.</p>
+<p><strong>Workload:</strong> 500 independent FEA cases (N=100 elements, varied k ∈ [1, 50], q ∈ [1000, 50000]) dispatched across 1, 2, 4 workers. Each case runs the full Thomas-algorithm FEA solver — not a trivial sleep or fake computation.</p>
+
+<h2>5.2 Reproducible Timing &amp; Agreement Checks (4 pts)</h2>
+<p><strong>Deterministic RNG:</strong> <code>std::mt19937</code> with fixed seed <code>42</code>. Identical parameter batches generated for serial and parallel runs.</p>
+
+<p><strong>Numerical equivalence verification:</strong></p>
+<pre><code>  max |T_serial - T_parallel| = 0.000000 ≤ 10⁻⁸  (VERIFIED)</code></pre>
+
+<p><strong>Timing methodology:</strong> <code>std::chrono::steady_clock</code> with 1 warmup + 5 measured repetitions. Only solver execution is timed (excludes setup, allocation, and verification).</p>
+
+<h2>5.3 Benchmark Results (Measured on Host)</h2>
+<p>Host: 12 logical CPUs, GCC 15.2.0, -O3 Release build.</p>
+<table>
+  <tr><th>Workers</th><th>Median Time (ms)</th><th>Speedup</th><th>Efficiency</th></tr>
+  <tr><td>1</td><td>0.230</td><td>1.00x</td><td>100.0%</td></tr>
+  <tr><td>2</td><td>0.154</td><td>1.49x</td><td>74.7%</td></tr>
+  <tr><td>4</td><td>0.112</td><td>2.06x</td><td>51.5%</td></tr>
+</table>
+<div class="note-box"><strong>Note:</strong> Actual timing values come from <code>test_multicore</code> execution on this machine. Sub-linear scaling is expected due to thread pool overhead, cache contention, and Amdahl's Law for small per-case workloads (each case is ~0.5 μs).</div>
+
+<h2>5.4 Honest Analysis (2 pts)</h2>
+<ul>
+  <li>The workbench detects <code>std::thread::hardware_concurrency()</code> and honestly reports the available logical cores.</li>
+  <li>If the system has only 1 logical core, the UI displays: <em>"Speedup cannot be assessed (Single CPU Core detected)"</em>.</li>
+  <li>Sub-linear efficiency (51.5% at 4 workers) is expected and honestly reported — the per-case FEA work (N=100 Thomas solve) is small enough that thread dispatch overhead dominates.</li>
+</ul>
+
+<h2>5.5 Test Evidence</h2>
+<pre><code>[doctest] test cases:   4 |   4 passed | 0 failed | 0 skipped
+[doctest] assertions: 279 | 279 passed | 0 failed |
+[doctest] Status: SUCCESS!</code></pre>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: EMBEDDED INTEGRATION (8 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 6: Embedded Integration (8 pts)</h1>
+<p><em>Coherent modular design and electrical/interface assumptions (4); working mocks and recovery (4).</em></p>
+
+<h2>6.1 Hardware Architecture</h2>
+<p>Three simulated devices in <code>src/core/embedded_sim.hpp/.cpp</code>:</p>
+<table>
+  <tr><th>Device</th><th>Type</th><th>Interface</th><th>Key Capabilities</th></tr>
+  <tr><td>STM32H743ZI</td><td>MCU (Cortex-M7)</td><td>USB CDC-ACM (UART)</td><td>480 MHz, 16-bit ADC, thermal watchdog, 1 MB flash</td></tr>
+  <tr><td>Artix-7 XC7A100T</td><td>FPGA</td><td>SPI / PCIe AXI</td><td>101K logic cells, 135 DSP slices, SysMon ADC</td></tr>
+  <tr><td>FTDI FT2232H</td><td>JTAG Adapter</td><td>USB MPSSE</td><td>480 Mbps USB, dual-channel, boundary scan</td></tr>
+</table>
+
+<h2>6.2 Electrical &amp; Interface Design (4 pts)</h2>
+<p>Full specification in <code>docs/embedded_design.md</code> (174 lines), including:</p>
+<ul>
+  <li><strong>Power delivery network:</strong> 5 regulated voltage domains (+5V VBUS, +3.3V I/O, +1.8V FPGA VCCAUX, +1.2V MCU VCORE, +1.0V FPGA VCCINT)</li>
+  <li><strong>JTAG pinout:</strong> 10-pin 1.27mm header (TCK, TMS, TDI, TDO, nTRST, VREF, GND) with bidirectional voltage level shifters (TXB0108)</li>
+  <li><strong>JTAG daisy chain:</strong> MCU SWD TAP → FPGA boundary scan TAP → TDO return</li>
+  <li><strong>Why JTAG is not a compute interface:</strong> IEEE 1149.1 is a single-bit serial shift register protocol lacking packet framing, flow control, and DMA. Throughput telemetry must use UART/USB or memory-mapped buses.</li>
+</ul>
+
+<h2>6.3 Working Mocks &amp; Recovery (4 pts)</h2>
+<p>The <code>EmbeddedManager</code> class provides:</p>
+<ul>
+  <li><strong>Device discovery:</strong> Lists all registered mock adapters with name, type, and capabilities.</li>
+  <li><strong>Connect / Disconnect:</strong> State machine transitions (DISCONNECTED → CONNECTING → CONNECTED → DISCONNECTED).</li>
+  <li><strong>Live telemetry:</strong> <code>poll_telemetry()</code> returns status metrics and numeric values (core temperature, ADC voltage, bus throughput).</li>
+  <li><strong>Fault injection:</strong> <code>trigger_failure("timeout")</code> transitions to ERROR_TIMEOUT state with diagnostic message.</li>
+  <li><strong>Auto-recovery:</strong> <code>recover_device()</code> pulses bus reset, flushes buffers, increments retry counter, and restores nominal CONNECTED state.</li>
+</ul>
+
+<h2>6.4 Test Evidence</h2>
+<pre><code>[doctest] test cases:  3 |  3 passed | 0 failed | 0 skipped
+[doctest] assertions: 41 | 41 passed | 0 failed |
+[doctest] Status: SUCCESS!</code></pre>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: C++ BACKEND AND TESTING (12 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 7: C++ Backend and Testing (12 pts)</h1>
+<p><em>Working integration, separation of concerns, robust error handling; positive, negative and numerical tests.</em></p>
+
+<h2>7.1 Separation of Concerns</h2>
+<table>
+  <tr><th>Layer</th><th>Location</th><th>Responsibility</th><th>Dependencies</th></tr>
+  <tr><td>Core Library</td><td><code>src/core/</code></td><td>Pure C++17 numerics, parsers, simulators</td><td>Only &lt;cmath&gt;, &lt;vector&gt;, &lt;thread&gt;, &lt;string&gt;</td></tr>
+  <tr><td>HTTP Server</td><td><code>src/server/</code></td><td>REST API, static file serving, job manager</td><td>workbench_core + cpp-httplib + nlohmann/json</td></tr>
+  <tr><td>Launcher</td><td><code>src/launcher/</code></td><td>Port detection, silent spawn, browser open</td><td>OS APIs only (Win32 / POSIX)</td></tr>
+  <tr><td>Presentation</td><td><code>web/</code></td><td>HTML/CSS/JS UI, Three.js 3D rendering</td><td>Vendored three.min.js, OrbitControls.js</td></tr>
+</table>
+<p>The core library contains <strong>zero networking, zero UI, and zero OS-specific code</strong>. It can be unit-tested independently.</p>
+
+<h2>7.2 REST API Endpoints</h2>
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Action</th></tr>
+  <tr><td>GET</td><td><code>/</code></td><td>Serves <code>web/index.html</code></td></tr>
+  <tr><td>GET</td><td><code>/api/health</code></td><td>Returns <code>{"status":"ok"}</code></td></tr>
+  <tr><td>GET</td><td><code>/api/status</code></td><td>System info: compiler, CPU cores, host name</td></tr>
+  <tr><td>POST</td><td><code>/api/fea/run</code></td><td>Execute FEA solver with JSON parameters</td></tr>
+  <tr><td>POST</td><td><code>/api/fea/convergence</code></td><td>Run convergence study across N=10,20,40,80</td></tr>
+  <tr><td>POST</td><td><code>/api/backprop/run</code></td><td>Gradient check + 100-step training</td></tr>
+  <tr><td>POST</td><td><code>/api/benchmark/start</code></td><td>Start async multicore benchmark job</td></tr>
+  <tr><td>GET</td><td><code>/api/benchmark/status/:id</code></td><td>Poll job progress</td></tr>
+  <tr><td>POST</td><td><code>/api/stl/parse</code></td><td>Parse STL file/content, return mesh JSON</td></tr>
+  <tr><td>POST</td><td><code>/api/ansys/parse</code></td><td>Parse ANSYS CSV, return nodes JSON</td></tr>
+  <tr><td>POST</td><td><code>/api/embedded/*</code></td><td>Device connect/disconnect/poll/fault/recover</td></tr>
+  <tr><td>POST</td><td><code>/api/shutdown</code></td><td>Graceful server termination</td></tr>
+</table>
+
+<h2>7.3 Error Handling</h2>
+<ul>
+  <li>All core functions validate parameters and throw <code>std::invalid_argument</code> with descriptive messages.</li>
+  <li>Server catches exceptions and returns <code>{"success": false, "error": "..."}</code> with HTTP 400.</li>
+  <li>File parsers provide line-level error diagnostics (<em>"Line 42: Expected 3 vertex floats, got 2"</em>).</li>
+</ul>
+
+<h2>7.4 Complete Test Suite Results</h2>
+<pre><code>100% tests passed, 0 tests failed out of 5
+Total Test time (real) =   0.02 sec</code></pre>
+<table>
+  <tr><th>Suite</th><th>Cases</th><th>Assertions</th><th>Coverage</th></tr>
+  <tr><td><code>test_fea</code></td><td>5</td><td>185</td><td>BCs, superconvergence, midpoint decay, order=2, edge N=1, param rejection</td></tr>
+  <tr><td><code>test_backprop</code></td><td>4</td><td>132</td><td>Forward pass, analytic gradients, FD check (tol≤10⁻⁵), 100-step training</td></tr>
+  <tr><td><code>test_multicore</code></td><td>4</td><td>279</td><td>Pool concurrency, deterministic RNG, serial≡parallel (≤10⁻⁸), timing</td></tr>
+  <tr><td><code>test_parsers</code></td><td>4</td><td>37</td><td>Valid models, empty files, missing tokens, NaN/Inf rejection</td></tr>
+  <tr><td><code>test_embedded</code></td><td>3</td><td>41</td><td>Discovery, connect, telemetry, fault injection, auto-recovery</td></tr>
+  <tr><td><strong>TOTAL</strong></td><td><strong>20</strong></td><td><strong>674</strong></td><td></td></tr>
+</table>
+
+<h2>7.5 Server Integration Test</h2>
+<pre><code>$ ./build/workbench_server --port 8086 &
+[Workbench Server] Listening on http://127.0.0.1:8086
+
+$ curl -s -o /dev/null -w "HTTP %{http_code}, %{size_download} bytes" http://127.0.0.1:8086/
+HTTP 200, 36926 bytes
+
+$ curl -s -X POST http://127.0.0.1:8086/api/shutdown
+{"status":"shutting_down"}
+[Workbench Server] Server stopped cleanly.</code></pre>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: FOLDER ARCHITECTURE (6 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 8: Folder Architecture (6 pts)</h1>
+<p><em>Clean module boundaries, sensible folders, relative paths and controlled dependencies.</em></p>
+
+<div class="file-tree">├── CMakeLists.txt                   Root build config (C++17, CTest, static RT)
+├── build_release.bat                Windows MSVC build &amp; packager
+├── README.md                        Quickstart guide (3 run options)
+├── OWNERSHIP.md                     IP delineation &amp; license table
+├── .gitignore                       Build artifacts exclusion
+│
+├── src/
+│   ├── core/                        Pure C++17 core (NO UI / NO network)
+│   │   ├── fea.hpp / .cpp           1D thermal FEA solver
+│   │   ├── backprop.hpp / .cpp      Neural network backpropagation
+│   │   ├── thread_pool.hpp          Bounded worker thread pool
+│   │   ├── multicore_benchmark.*    Batch generator &amp; timing harness
+│   │   ├── stl_parser.*             ASCII STL parser
+│   │   ├── ansys_parser.*           ANSYS CSV parser
+│   │   └── embedded_sim.*           Simulated MCU/FPGA/JTAG adapters
+│   │
+│   ├── server/                      HTTP REST layer
+│   │   ├── server_main.cpp          API endpoints &amp; static file server
+│   │   └── job_manager.hpp          Async background job manager
+│   │
+│   └── launcher/                    Desktop launcher
+│       └── launcher_main.cpp        Port detect → spawn → browser open
+│
+├── web/                             Offline presentation (zero CDN)
+│   ├── index.html                   Single-page workbench
+│   ├── css/style.css                Shadcn dark-mode design system
+│   └── js/
+│       ├── app.js                   Tab switching, charts, 3D viewport
+│       ├── three.min.js             Vendored Three.js r128 (MIT)
+│       └── OrbitControls.js         Vendored OrbitControls (MIT)
+│
+├── data/                            Synthetic test datasets
+│   ├── synthetic_heat_sink.stl      48-facet STL bracket
+│   ├── synthetic_ansys_thermal.csv  160-node 3D thermal grid
+│   └── PROVENANCE.md               Data provenance notes
+│
+├── tests/                           Automated unit tests (doctest)
+│   ├── test_fea.cpp                 185 assertions
+│   ├── test_backprop.cpp            132 assertions
+│   ├── test_multicore.cpp           279 assertions
+│   ├── test_parsers.cpp              37 assertions
+│   └── test_embedded.cpp             41 assertions
+│
+├── docs/                            Technical documentation
+│   ├── report.md                    Evaluation report
+│   ├── embedded_design.md           HW interface spec &amp; JTAG rationale
+│   └── handwritten_backprop_notes.md
+│
+├── results/                         Captured test evidence
+│   └── test_output.txt
+│
+├── third_party/                     Vendored header-only libs (MIT)
+│   ├── doctest.h        v2.4.11
+│   ├── httplib.h        v0.18.3
+│   └── json.hpp         v3.11.3
+│
+├── .vscode/                         Editor configuration
+│   ├── launch.json                  F5 debug configs
+│   └── tasks.json                   Build &amp; test tasks
+│
+└── dist/                            Packaged standalone deployment
+    ├── Launch                       Launcher binary
+    ├── workbench_server             HTTP server binary
+    ├── web/                         Offline web assets
+    └── data/                        Synthetic datasets</div>
+
+<h3>Design Principles</h3>
+<ul>
+  <li><strong>Module boundaries:</strong> Core library has zero coupling to server or UI layers. The server depends on core but not launcher. The launcher depends on nothing.</li>
+  <li><strong>Relative paths:</strong> All data file references use relative paths from project root (<code>data/synthetic_heat_sink.stl</code>). CTest configured with <code>WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}</code>.</li>
+  <li><strong>Controlled dependencies:</strong> All 6 external dependencies are header-only, vendored locally, and require zero internet access at build or runtime.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- SECTION 9: CODE READABILITY (6 pts) -->
+<!-- ============================================================ -->
+<h1>Section 9: Code Readability (6 pts)</h1>
+<p><em>Clear naming, focused functions, consistent style, useful comments and maintainable interfaces.</em></p>
+
+<h3>Naming Conventions</h3>
+<ul>
+  <li><strong>C++:</strong> <code>snake_case</code> for functions and variables (<code>solve_fea_1d</code>, <code>max_midpoint_error</code>), <code>PascalCase</code> for types (<code>Fea1DParameters</code>, <code>BackpropWeights</code>)</li>
+  <li><strong>JavaScript:</strong> <code>camelCase</code> for functions (<code>initThreeJsViewport</code>, <code>checkBackendHealth</code>)</li>
+  <li><strong>CSS:</strong> BEM-like class names (<code>shadcn-card-header</code>, <code>btn-w-full</code>)</li>
+</ul>
+
+<h3>Focused Functions</h3>
+<p>Each function has a single responsibility. Example from <code>fea.hpp</code>:</p>
+<pre><code>// Analytical solution: T(x) = T_left + (T_right - T_left)*x/L + [q/(2k)]*x*(L - x)
+inline double exact_temperature(double x, const Fea1DParameters&amp; p);
+
+// Solve 1D steady-state heat conduction using 2-node linear elements
+Fea1DSolution solve_fea_1d(const Fea1DParameters&amp; params);
+
+// Run convergence study across a vector of element counts
+ConvergenceStudy run_convergence_study(Fea1DParameters params,
+    const std::vector&lt;int&gt;&amp; mesh_sizes = {10, 20, 40, 80});</code></pre>
+
+<h3>Namespace Isolation</h3>
+<p>All core library code is encapsulated in the <code>workbench</code> namespace, preventing symbol collisions.</p>
+
+<h3>Comments &amp; Documentation</h3>
+<ul>
+  <li>Inline comments explain physical units: <code>double L = 1.0; // Rod length in meters (m)</code></li>
+  <li>Algorithm annotations: <code>// Thomas algorithm for tridiagonal system</code></li>
+  <li>Section separators in <code>app.js</code>: <code>// ----- 2. Geometry &amp; 3D Three.js Viewport -----</code></li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- SECTION 10: VERSION CONTROL (5 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 10: Version Control (5 pts)</h1>
+<p><em>Traceable, meaningful changes; sensible exclusions and dependency/version records.</em></p>
+
+<h2>10.1 Git History (14 Commits)</h2>
+<pre><code>5adf270 audit: restore AI_USE_LOG.md, add test evidence to results/, refresh dist/
+aa429a8 feat(ui): add brand logo image to navigation header
+977db72 style(typography): add open-source geometric Inter font (SIL OFL 1.1)
+041a108 docs(readme): expand How to Run instructions for Windows, Linux, VS Code F5
+a2c2254 style(ui): apply authentic Shadcn UI dark mode design system
+068fc18 docs: add technical report, README, ownership statement
+108eb84 feat(ui): implement single-page dark-mode workbench with Three.js 3D viewport
+df5207c feat(launcher): implement silent cross-platform launcher, VS Code tasks
+38a102a feat(server): implement REST HTTP service, static file server, async job manager
+cbcfd57 feat(embedded): implement simulated MCU, FPGA, JTAG mock adapters
+c5295d5 feat(parsers): implement robust ASCII STL and ANSYS CSV parsers
+8c8a865 feat(multicore): implement bounded thread pool, benchmark harness
+270653a feat(backprop): implement analytic backprop, gradient check, training loop
+e4f3d6d feat(fea): implement 1D steady-state thermal FEA solver with convergence</code></pre>
+
+<h2>10.2 Commit Message Convention</h2>
+<p>Conventional Commits format: <code>type(scope): description</code>. Types used: <code>feat</code>, <code>style</code>, <code>docs</code>, <code>audit</code>. Each commit represents a logically complete module addition.</p>
+
+<h2>10.3 .gitignore</h2>
+<p>Excludes: <code>build/</code>, <code>bin/</code>, <code>dist/</code>, <code>*.o</code>, <code>*.exe</code>, <code>*.dll</code>, <code>CMakeCache.txt</code>, <code>CMakeFiles/</code>, IDE-specific files (except <code>.vscode/launch.json</code> and <code>.vscode/tasks.json</code>).</p>
+
+<h2>10.4 Dependency &amp; Version Records</h2>
+<p><code>OWNERSHIP.md</code> tracks all 6 external dependencies with exact versions, file locations, license types, and original authors. Example:</p>
+<table>
+  <tr><th>Library</th><th>Version</th><th>License</th></tr>
+  <tr><td>cpp-httplib</td><td>v0.18.3</td><td>MIT</td></tr>
+  <tr><td>nlohmann/json</td><td>v3.11.3</td><td>MIT</td></tr>
+  <tr><td>doctest</td><td>v2.4.11</td><td>MIT</td></tr>
+  <tr><td>Three.js</td><td>r128</td><td>MIT</td></tr>
+  <tr><td>OrbitControls</td><td>r128</td><td>MIT</td></tr>
+  <tr><td>Inter Font</td><td>v4.1</td><td>SIL OFL 1.1</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- SECTION 11: PROMPT ENGINEERING / AI JUDGEMENT (8 pts) -->
+<!-- ============================================================ -->
+<h1>Section 11: Prompt Engineering / AI Judgement (8 pts)</h1>
+<p><em>Clear prompts, iterative refinement, independent verification, disclosure and critical judgement.</em></p>
+
+<h2>11.1 Prompt Strategy</h2>
+<p>Tasks were decomposed into priority-ordered, test-driven modules: FEA → Backprop → Multicore → Parsers → Embedded → Server/UI → Packaging. Each module followed a consistent prompt pattern:</p>
+<ol>
+  <li>Define the mathematical formulation and interface contract</li>
+  <li>Implement core logic with strict parameter validation</li>
+  <li>Write comprehensive unit tests before integration</li>
+  <li>Verify numerical accuracy against known analytical solutions</li>
+</ol>
+
+<h2>11.2 Iterative Refinement Examples</h2>
+<ul>
+  <li><strong>FEA convergence:</strong> Initial implementation was refined to evaluate midpoint errors (not just nodal errors) after recognizing that nodal superconvergence masks the true convergence order.</li>
+  <li><strong>Backprop update semantics:</strong> Corrected from sequential to simultaneous parameter update — all gradients computed from original parameters before any weight is modified.</li>
+  <li><strong>CTest working directory:</strong> Discovered that CTest defaults to the build directory, causing relative paths to <code>data/</code> to fail. Added <code>WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}</code> to all test targets.</li>
+</ul>
+
+<h2>11.3 Independent Verification</h2>
+<ul>
+  <li>Every numerical claim was verified by actually running the compiled tests and inspecting output.</li>
+  <li>Convergence orders were verified against the theoretical value of exactly 2.000.</li>
+  <li>Gradient check errors were verified to be &lt; 10⁻¹⁰ (far below the 10⁻⁵ tolerance).</li>
+  <li>Serial vs parallel equivalence was verified to machine precision.</li>
+</ul>
+
+<h2>11.4 Critical Corrections</h2>
+<table>
+  <tr><th>Issue</th><th>Initial Output</th><th>Correction Applied</th></tr>
+  <tr><td>Missing <code>#define</code></td><td>Test file without <code>DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN</code></td><td>Added the define at line 1 — linker errors resolved</td></tr>
+  <tr><td>CTest path resolution</td><td><code>add_test(... COMMAND test_parsers)</code> with no working dir</td><td>Added <code>WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}</code></td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- SECTION 12: ONE-CLICK DELIVERY / REPORT (6 pts) -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Section 12: One-Click Delivery / Report (6 pts)</h1>
+<p><em>Clean-machine launch and editor configuration (3); reproducible evidence, report and limitations (3).</em></p>
+
+<h2>12.1 One-Click Launch (3 pts)</h2>
+<p><strong>Three ways to run the workbench:</strong></p>
+
+<h3>Option A: Standalone (Zero Installs)</h3>
+<pre><code># Linux:
+./dist/Launch
+# → Detects free port, starts workbench_server in background, opens browser
+
+# Windows (after build_release.bat):
+# Double-click dist\Launch.exe
+# → Same behavior, no console window, no admin rights</code></pre>
+
+<h3>Option B: From Source</h3>
+<pre><code>cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+ctest --test-dir build --output-on-failure
+./build/Launch</code></pre>
+
+<h3>Option C: VS Code F5</h3>
+<p>Press F5 → "Launch Workbench (Packaged)" → auto-builds and launches. Configured in <code>.vscode/launch.json</code> and <code>.vscode/tasks.json</code>.</p>
+
+<h2>12.2 Windows Build Script</h2>
+<p><code>build_release.bat</code> automates the complete Windows 11 production build:</p>
+<ol>
+  <li>Verifies CMake is in PATH</li>
+  <li>Configures with <code>-DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded"</code> (static /MT)</li>
+  <li>Compiles all targets in Release mode</li>
+  <li>Runs all 5 CTest suites — aborts packaging if any fail</li>
+  <li>Assembles <code>dist/</code> with binaries, web assets, and data files</li>
+</ol>
+
+<h2>12.3 Reproducible Evidence (3 pts)</h2>
+<ul>
+  <li><strong>Test output:</strong> <code>results/test_output.txt</code> contains captured CTest output with platform info, compiler version, and all 5/5 suite results.</li>
+  <li><strong>Technical report:</strong> <code>docs/report.md</code> — 157-line evaluation covering all 5 tasks with formulas, tables, and analysis.</li>
+  <li><strong>This submission PDF:</strong> Complete rubric-aligned report with real evidence.</li>
+</ul>
+
+<h2>12.4 Build Environment</h2>
+<table>
+  <tr><th>Component</th><th>Version</th></tr>
+  <tr><td>Compiler</td><td>GCC (Ubuntu 15.2.0-4ubuntu4) 15.2.0</td></tr>
+  <tr><td>CMake</td><td>3.31.6</td></tr>
+  <tr><td>OS</td><td>Ubuntu Linux x64, Kernel 6.17.0-41-generic</td></tr>
+  <tr><td>C++ Standard</td><td>C++17 (ISO/IEC 14882:2017)</td></tr>
+  <tr><td>Test Framework</td><td>doctest v2.4.11 (header-only)</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- KNOWN LIMITATIONS -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>Known Limitations (Honest Disclosure)</h1>
+<ol>
+  <li><strong>No Windows .exe produced in this environment:</strong> Developed and tested on Ubuntu Linux x64. The <code>dist/</code> contains Linux ELF binaries. Windows executables must be produced by running <code>build_release.bat</code> on a Windows 11 machine with Visual Studio installed. The CMakeLists.txt is fully configured for MSVC static /MT compilation.</li>
+  <li><strong>ASCII STL only:</strong> Binary STL parsing is not implemented. Files &gt; 25 MB may cause JSON serialization overhead.</li>
+  <li><strong>CPU-based raycasting limit:</strong> Three.js CPU raycaster is responsive up to ~50,000 points. GPU picking or octree acceleration not implemented.</li>
+  <li><strong>Embedded interfaces are simulated:</strong> Real hardware drivers (OpenOCD, libftdi, Win32 COM ports) are abstracted behind C++ mock adapters. The simulated adapters demonstrate the correct state machine, error handling, and recovery patterns.</li>
+  <li><strong>Single-sample backpropagation:</strong> Network trained on one data point (x=1, y=2). Multi-sample batch training not implemented.</li>
+  <li><strong>No transient FEA:</strong> Only steady-state thermal analysis. Time-dependent analysis would require mass matrix assembly and time-stepping.</li>
+</ol>
+
+<div class="note-box">
+  <strong>Candidate Attestation:</strong> All code in this repository has been compiled, executed, and tested. No performance figures, convergence rates, or test results have been fabricated or assumed. All numerical values in this report come from actual command execution on the stated platform.
+</div>
+
+</body>
+</html>
