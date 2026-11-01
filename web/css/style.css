@@ -131,6 +131,14 @@ body {
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
+.brand-logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    display: block;
+}
+
 .brand-meta {
     display: flex;
     flex-direction: column;
