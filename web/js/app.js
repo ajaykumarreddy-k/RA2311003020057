@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 1. Tab Navigation
 // -------------------------------------------------------------
 function initTabs() {
-    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabBtns = document.querySelectorAll('.shadcn-tab-trigger, .tab-btn');
     const panes = document.querySelectorAll('.tab-pane');
 
     tabBtns.forEach(btn => {
@@ -80,7 +80,7 @@ function initThreeJsViewport() {
     if (!container) return;
 
     threeScene = new THREE.Scene();
-    threeScene.background = new THREE.Color(0x0f141c);
+    threeScene.background = new THREE.Color(0x09090b);
 
     // Camera
     threeCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.001, 100);
@@ -110,7 +110,7 @@ function initThreeJsViewport() {
     threeScene.add(dirLight2);
 
     // Grid helper
-    const grid = new THREE.GridHelper(0.3, 30, 0x2b394f, 0x1e293b);
+    const grid = new THREE.GridHelper(0.3, 30, 0x27272a, 0x18181b);
     grid.position.y = -0.001;
     threeScene.add(grid);
 
@@ -555,23 +555,23 @@ function renderFeaProfileChart(curves) {
     const mapX = (x) => pad.left + (x - minX) / (maxX - minX) * (width - pad.left - pad.right);
     const mapY = (y) => height - pad.bottom - (y - minY) / (maxY - minY) * (height - pad.top - pad.bottom);
 
-    let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="background:#171f2d; font-family:var(--font-mono); font-size:10px;">`;
+    let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="background:#0c0c0e; font-family:var(--font-mono); font-size:10px;">`;
 
     // Gridlines & Axis labels
     const ySteps = 5;
     for (let i = 0; i <= ySteps; ++i) {
         const val = minY + (maxY - minY) * (i / ySteps);
         const y = mapY(val);
-        svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#2b394f" stroke-dasharray="2,2"/>`;
-        svg += `<text x="${pad.left - 8}" y="${y + 3}" fill="#94a3b8" text-anchor="end">${val.toFixed(0)}°C</text>`;
+        svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#27272a" stroke-dasharray="2,2"/>`;
+        svg += `<text x="${pad.left - 8}" y="${y + 3}" fill="#a1a1aa" text-anchor="end">${val.toFixed(0)}°C</text>`;
     }
 
     const xSteps = 5;
     for (let i = 0; i <= xSteps; ++i) {
         const val = minX + (maxX - minX) * (i / xSteps);
         const x = mapX(val);
-        svg += `<line x1="${x}" y1="${pad.top}" x2="${x}" y2="${height - pad.bottom}" stroke="#2b394f" stroke-dasharray="2,2"/>`;
-        svg += `<text x="${x}" y="${height - pad.bottom + 16}" fill="#94a3b8" text-anchor="middle">${val.toFixed(2)} m</text>`;
+        svg += `<line x1="${x}" y1="${pad.top}" x2="${x}" y2="${height - pad.bottom}" stroke="#27272a" stroke-dasharray="2,2"/>`;
+        svg += `<text x="${x}" y="${height - pad.bottom + 16}" fill="#a1a1aa" text-anchor="middle">${val.toFixed(2)} m</text>`;
     }
 
     // Exact curve (drawn with dashed white line)
@@ -697,21 +697,21 @@ function renderLossChart(history) {
     const mapX = (s) => pad.left + (s / maxStep) * (width - pad.left - pad.right);
     const mapY = (l) => height - pad.bottom - (l / maxLoss) * (height - pad.top - pad.bottom);
 
-    let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="background:#171f2d; font-family:var(--font-mono); font-size:10px;">`;
+    let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="background:#0c0c0e; font-family:var(--font-mono); font-size:10px;">`;
 
     // Y Gridlines
     for (let i = 0; i <= 4; ++i) {
         const val = minLoss + (maxLoss - minLoss) * (i / 4);
         const y = mapY(val);
-        svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#2b394f" stroke-dasharray="2,2"/>`;
-        svg += `<text x="${pad.left - 8}" y="${y + 3}" fill="#94a3b8" text-anchor="end">${val.toFixed(3)}</text>`;
+        svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#27272a" stroke-dasharray="2,2"/>`;
+        svg += `<text x="${pad.left - 8}" y="${y + 3}" fill="#a1a1aa" text-anchor="end">${val.toFixed(3)}</text>`;
     }
 
     // X Gridlines
     for (let s = 0; s <= 100; s += 20) {
         const x = mapX(s);
-        svg += `<line x1="${x}" y1="${pad.top}" x2="${x}" y2="${height - pad.bottom}" stroke="#2b394f" stroke-dasharray="2,2"/>`;
-        svg += `<text x="${x}" y="${height - pad.bottom + 16}" fill="#94a3b8" text-anchor="middle">Step ${s}</text>`;
+        svg += `<line x1="${x}" y1="${pad.top}" x2="${x}" y2="${height - pad.bottom}" stroke="#27272a" stroke-dasharray="2,2"/>`;
+        svg += `<text x="${x}" y="${height - pad.bottom + 16}" fill="#a1a1aa" text-anchor="middle">Step ${s}</text>`;
     }
 
     // Loss trajectory
@@ -926,13 +926,13 @@ function renderSpeedupChart(runs) {
     const mapX = (w) => pad.left + ((w - 1) / (maxWorkers - 1 || 1)) * (width - pad.left - pad.right);
     const mapY = (s) => height - pad.bottom - (s / maxSpeedup) * (height - pad.top - pad.bottom);
 
-    let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="background:#171f2d; font-family:var(--font-mono); font-size:10px;">`;
+    let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="background:#0c0c0e; font-family:var(--font-mono); font-size:10px;">`;
 
     // Gridlines
     for (let s = 1; s <= maxSpeedup; ++s) {
         const y = mapY(s);
-        svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#2b394f" stroke-dasharray="2,2"/>`;
-        svg += `<text x="${pad.left - 8}" y="${y + 3}" fill="#94a3b8" text-anchor="end">${s.toFixed(1)}x</text>`;
+        svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#27272a" stroke-dasharray="2,2"/>`;
+        svg += `<text x="${pad.left - 8}" y="${y + 3}" fill="#a1a1aa" text-anchor="end">${s.toFixed(1)}x</text>`;
     }
 
     // Ideal linear speedup line
