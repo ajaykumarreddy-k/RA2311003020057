@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PASS Science Works — Unified Engineering Workbench</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Offline Vendored Three.js & OrbitControls (No CDN, No Build Step) -->
+    <script src="js/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+</head>
+<body>
+    <!-- ========================================================= -->
+    <!-- SHADCN HEADER NAVBAR -->
+    <!-- ========================================================= -->
+    <header class="shadcn-header">
+        <div class="brand-wrapper">
+            <div class="brand-icon">P</div>
+            <div class="brand-meta">
+                <span class="brand-title">PASS Science Works</span>
+                <span class="brand-sub">Unified Engineering Workbench</span>
+            </div>
+        </div>
+
+        <!-- Segmented Tab Controls (Shadcn Tabs Component) -->
+        <div class="shadcn-tabs-nav" role="tablist">
+            <button class="shadcn-tab-trigger active" data-tab="geometry-tab" id="btn-tab-geometry" role="tab">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.12 6.4-6.05-4.06a2 2 0 0 0-2.17-.05L2.95 8.41a2 2 0 0 0-.95 1.7v5.82a2 2 0 0 0 .88 1.66l6.05 4.07a2 2 0 0 0 2.17.05l9.9-6.12a2 2 0 0 0 .95-1.7V8.06a2 2 0 0 0-.83-1.66z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                Geometry & CAD
+            </button>
+            <button class="shadcn-tab-trigger" data-tab="thermal-tab" id="btn-tab-thermal" role="tab">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                Thermal FEA
+            </button>
+            <button class="shadcn-tab-trigger" data-tab="performance-tab" id="btn-tab-performance" role="tab">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Performance
+            </button>
+            <button class="shadcn-tab-trigger" data-tab="hardware-tab" id="btn-tab-hardware" role="tab">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h.01"/><path d="M17 7h.01"/><path d="M7 17h.01"/><path d="M17 17h.01"/></svg>
+                Hardware <span class="shadcn-badge badge-amber" style="padding: 1px 6px; font-size: 10px; margin-left: 4px;">SIMULATED</span>
+            </button>
+        </div>
+
+        <div class="header-status-badge">
+            <span class="status-dot" id="server-status-dot"></span>
+            <span id="server-status-text">C++17 Engine Active</span>
+        </div>
+    </header>
+
+    <main class="workbench-content">
+        <!-- ========================================================= -->
+        <!-- TAB 1: GEOMETRY & CAD VISUALIZATION -->
+        <!-- ========================================================= -->
+        <section id="geometry-tab" class="tab-pane active">
+            <div class="pane-grid">
+                <!-- Sidebar Controls -->
+                <aside class="shadcn-sidebar">
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">Model Sources</h3>
+                            <p class="shadcn-card-description">Select built-in synthetic test assets or inspect custom CAD files.</p>
+                        </div>
+                        <div class="shadcn-card-content btn-group-col">
+                            <button id="btn-load-stl" class="btn btn-default btn-w-full">
+                                Load Synthetic STL Bracket
+                            </button>
+                            <button id="btn-load-ansys" class="btn btn-secondary btn-w-full">
+                                Load Synthetic ANSYS Mesh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">File Ingestion</h3>
+                            <p class="shadcn-card-description">Upload ASCII STL geometry or ANSYS nodal CSV.</p>
+                        </div>
+                        <div class="shadcn-card-content">
+                            <div class="shadcn-dropzone" id="file-drop-area">
+                                <input type="file" id="file-input" accept=".stl,.csv,.txt" style="display:none;">
+                                <label for="file-input" class="btn btn-outline btn-sm" style="cursor: pointer;">
+                                    Browse Local File
+                                </label>
+                                <span style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-top: 8px;">
+                                    .stl (ASCII) or .csv (ANSYS nodal)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">Viewport Tools</h3>
+                        </div>
+                        <div class="shadcn-card-content btn-group-grid">
+                            <button id="btn-view-reset" class="btn btn-outline btn-sm">Reset View</button>
+                            <button id="btn-toggle-wireframe" class="btn btn-outline btn-sm">Wireframe: OFF</button>
+                        </div>
+                    </div>
+
+                    <!-- Model Metadata Card -->
+                    <div class="shadcn-card" id="geo-metadata">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">Model Attributes</h3>
+                        </div>
+                        <div class="shadcn-card-content" style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Type:</span>
+                                <strong id="geo-meta-type" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Count:</span>
+                                <strong id="geo-meta-count" style="font-family:var(--font-mono);">0</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Bounding X:</span>
+                                <strong id="geo-meta-bbox-x" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Bounding Y:</span>
+                                <strong id="geo-meta-bbox-y" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Bounding Z:</span>
+                                <strong id="geo-meta-bbox-z" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div id="geo-temp-range-row" style="display:none; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Temp Range:</span>
+                                <strong id="geo-meta-temp" style="font-family:var(--font-mono); color:#38bdf8;">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Node Details -->
+                    <div class="shadcn-card" id="geo-inspection-panel" style="display:none; border-color:hsl(var(--ring));">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">Nodal Inspection (Raycaster)</h3>
+                        </div>
+                        <div class="shadcn-card-content" style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Node ID:</span>
+                                <strong id="insp-node-id" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Coordinates:</span>
+                                <strong id="insp-node-pos" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Temperature:</span>
+                                <strong id="insp-node-temp" style="font-family:var(--font-mono); color:#22c55e;">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="geo-error-box" class="shadcn-alert alert-destructive" style="display:none;"></div>
+                </aside>
+
+                <!-- 3D Canvas Area -->
+                <div class="viewport-wrapper">
+                    <div id="threejs-canvas-wrapper" class="threejs-canvas-target"></div>
+                    <div id="colormap-legend" class="shadcn-colormap-overlay" style="display:none;">
+                        <span style="font-size: 11px; font-weight: 600; color: hsl(var(--muted-foreground));">Temperature Distribution (°C)</span>
+                        <div class="colormap-gradient-bar"></div>
+                        <div class="colormap-labels">
+                            <span id="legend-min">20 °C</span>
+                            <span id="legend-mid">80 °C</span>
+                            <span id="legend-max">145 °C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 2: THERMAL ANALYSIS & FEA -->
+        <!-- ========================================================= -->
+        <section id="thermal-tab" class="tab-pane">
+            <div class="pane-grid">
+                <!-- Parameters Sidebar -->
+                <aside class="shadcn-sidebar">
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">FEA Parameters (1D Rod)</h3>
+                            <p class="shadcn-card-description"><code>-d/dx(kA dT/dx) = qA</code> with Dirichlet BCs.</p>
+                        </div>
+                        <div class="shadcn-card-content">
+                            <div class="form-item">
+                                <label class="form-label" for="fea-length">Length L (m)</label>
+                                <input type="number" id="fea-length" class="shadcn-input" value="1.0" step="0.1" min="0.001">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="fea-area">Area A (m²)</label>
+                                <input type="number" id="fea-area" class="shadcn-input" value="0.0001" step="0.00001" min="1e-8">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="fea-k">Conductivity k (W/m·K)</label>
+                                <input type="number" id="fea-k" class="shadcn-input" value="10.0" step="1.0" min="0.01">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="fea-q">Source q (W/m³)</label>
+                                <input type="number" id="fea-q" class="shadcn-input" value="10000.0" step="500.0">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="fea-tleft">T(0) Boundary (°C)</label>
+                                <input type="number" id="fea-tleft" class="shadcn-input" value="100.0" step="5.0">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="fea-tright">T(L) Boundary (°C)</label>
+                                <input type="number" id="fea-tright" class="shadcn-input" value="20.0" step="5.0">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="fea-elements">Elements N</label>
+                                <input type="number" id="fea-elements" class="shadcn-input" value="10" min="1" max="1000">
+                            </div>
+
+                            <div class="btn-group-col" style="margin-top: 16px;">
+                                <button id="btn-fea-solve" class="btn btn-default btn-w-full">Solve Single Mesh (N)</button>
+                                <button id="btn-fea-convergence" class="btn btn-secondary btn-w-full">Run Convergence (N=10,20,40,80)</button>
+                                <button id="btn-fea-download-csv" class="btn btn-outline btn-w-full" disabled>Export Solution CSV</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">Backpropagation Engine</h3>
+                            <p class="shadcn-card-description"><code>h=tanh(wx+b)</code>, <code>y_hat=vh+c</code>, target <code>y=2.0</code>.</p>
+                        </div>
+                        <div class="shadcn-card-content btn-group-col">
+                            <button id="btn-backprop-run" class="btn btn-default btn-w-full">Run Gradient Check & 100 Steps</button>
+                            <button id="btn-backprop-download-csv" class="btn btn-outline btn-w-full" disabled>Export Backprop CSV</button>
+                        </div>
+                    </div>
+
+                    <div id="thermal-error-box" class="shadcn-alert alert-destructive" style="display:none;"></div>
+                </aside>
+
+                <!-- FEA & Backprop Visualizations -->
+                <div class="shadcn-main-panel">
+                    <!-- FEA Card -->
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header row">
+                            <div>
+                                <h3 class="shadcn-card-title">Thermal FEA Solution & Convergence Verification</h3>
+                                <p class="shadcn-card-description">Observed order evaluated at element midpoints via finite element interpolation.</p>
+                            </div>
+                            <span class="shadcn-badge badge-success" id="fea-order-badge">Convergence: O(h²)</span>
+                        </div>
+                        <div class="shadcn-card-content">
+                            <!-- SVG Chart Profile -->
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="font-size:12px; color:hsl(var(--muted-foreground)); margin-bottom:8px; text-transform:uppercase;">Temperature Profile T(x) vs Exact Curve</h4>
+                                <div id="fea-profile-chart" class="chart-card-wrapper"></div>
+                            </div>
+
+                            <!-- Convergence Table -->
+                            <div>
+                                <h4 style="font-size:12px; color:hsl(var(--muted-foreground)); margin-bottom:8px; text-transform:uppercase;">Convergence Study Results Table</h4>
+                                <div class="shadcn-table-wrapper">
+                                    <table class="shadcn-table" id="convergence-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Elements N</th>
+                                                <th>Mesh Size h (m)</th>
+                                                <th>Max Node Error (°C)</th>
+                                                <th>Max Midpoint Error (°C)</th>
+                                                <th>Observed Order p</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td colspan="5" style="text-align:center; color:hsl(var(--muted-foreground));">Computing convergence study...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backprop Card -->
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header row">
+                            <div>
+                                <h3 class="shadcn-card-title">Task 2: Backpropagation & Finite Differences Verification</h3>
+                                <p class="shadcn-card-description">Analytic gradients checked against central finite differences with eps=1e-6.</p>
+                            </div>
+                            <span class="shadcn-badge badge-success" id="gradcheck-badge">Gradients Verified</span>
+                        </div>
+                        <div class="shadcn-card-content">
+                            <div class="shadcn-table-wrapper" style="margin-bottom: 20px;">
+                                <table class="shadcn-table" id="gradcheck-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Analytic Gradient</th>
+                                            <th>Finite Difference (eps=1e-6)</th>
+                                            <th>Absolute Error</th>
+                                            <th>Tolerance Check</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td colspan="5" style="text-align:center; color:hsl(var(--muted-foreground));">Running gradient check...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div>
+                                <h4 style="font-size:12px; color:hsl(var(--muted-foreground)); margin-bottom:8px; text-transform:uppercase;">Loss J vs Step (100 Training Iterations)</h4>
+                                <div id="backprop-loss-chart" class="chart-card-wrapper"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 3: PERFORMANCE & MULTICORE BENCHMARK -->
+        <!-- ========================================================= -->
+        <section id="performance-tab" class="tab-pane">
+            <div class="pane-grid">
+                <aside class="shadcn-sidebar">
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">Benchmark Settings</h3>
+                            <p class="shadcn-card-description">Bounded worker pool, independent cases, identical solver.</p>
+                        </div>
+                        <div class="shadcn-card-content">
+                            <div class="form-item">
+                                <label class="form-label" for="bench-cases">Case Count</label>
+                                <input type="number" id="bench-cases" class="shadcn-input" value="500" min="50" max="5000" step="50">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="bench-mesh">Mesh Size N</label>
+                                <input type="number" id="bench-mesh" class="shadcn-input" value="100" min="10" max="500">
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label" for="bench-seed">RNG Seed</label>
+                                <input type="number" id="bench-seed" class="shadcn-input" value="42">
+                            </div>
+
+                            <div class="btn-group-col" style="margin-top: 16px;">
+                                <button id="btn-bench-start" class="btn btn-default btn-w-full">Start Benchmark</button>
+                                <button id="btn-bench-cancel" class="btn btn-destructive btn-w-full" disabled>Cancel Job</button>
+                                <button id="btn-bench-download-csv" class="btn btn-outline btn-w-full" disabled>Export Benchmark CSV</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header">
+                            <h3 class="shadcn-card-title">System & Host Introspection</h3>
+                        </div>
+                        <div class="shadcn-card-content" style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Logical Cores:</span>
+                                <strong id="sys-cores" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Compiler:</span>
+                                <strong id="sys-compiler" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Build Type:</span>
+                                <strong id="sys-build" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Optimization:</span>
+                                <strong id="sys-opt" style="font-family:var(--font-mono);">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:hsl(var(--muted-foreground));">Speedup Assessable:</span>
+                                <strong id="sys-speedup-ok" style="font-family:var(--font-mono); color:#22c55e;">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="bench-error-box" class="shadcn-alert alert-destructive" style="display:none;"></div>
+                </aside>
+
+                <div class="shadcn-main-panel">
+                    <div class="shadcn-card">
+                        <div class="shadcn-card-header row">
+                            <div>
+                                <h3 class="shadcn-card-title">Multicore Concurrency & Scaling Metrics</h3>
+                                <p class="shadcn-card-description">Timing compute exclusively across 1, 2, 4 worker threads with 1 warmup and 5 measured reps.</p>
+                            </div>
+                            <span class="shadcn-badge badge-secondary" id="bench-status-badge">Idle</span>
+                        </div>
+                        <div class="shadcn-card-content">
+                            <!-- Shadcn Progress Bar -->
+                            <div id="bench-progress-wrapper" style="display:none; margin-bottom: 20px;">
+                                <div class="shadcn-progress">
+                                    <div class="shadcn-progress-indicator" id="bench-progress-fill"></div>
+                                </div>
+                                <span id="bench-progress-text" style="font-size: 12px; color: hsl(var(--muted-foreground)); margin-top: 6px; display: block; font-family:var(--font-mono);">Running...</span>
+                            </div>
+
+                            <div id="bench-verification-banner" class="shadcn-alert alert-success" style="display:none; margin-bottom: 20px;">
+                                <span id="bench-verification-text">Serial vs Parallel Verification: Max Abs Diff &le; 1e-8 (PASSED)</span>
+                            </div>
+
+                            <!-- Table -->
+                            <div style="margin-bottom: 20px;">
+                                <div class="shadcn-table-wrapper">
+                                    <table class="shadcn-table" id="bench-results-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Workers (p)</th>
+                                                <th>Repetitions (ms)</th>
+                                                <th>Median Compute (ms)</th>
+                                                <th>Speedup Sp (T1/Tp)</th>
+                                                <th>Efficiency Ep</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td colspan="5" style="text-align:center; color:hsl(var(--muted-foreground));">No benchmark run yet. Click "Start Benchmark".</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Speedup Chart -->
+                            <div>
+                                <h4 style="font-size:12px; color:hsl(var(--muted-foreground)); margin-bottom:8px; text-transform:uppercase;">Measured Speedup vs Ideal Linear Scaling</h4>
+                                <div id="bench-speedup-chart" class="chart-card-wrapper"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 4: EMBEDDED INTEGRATION (SIMULATED) -->
+        <!-- ========================================================= -->
+        <section id="hardware-tab" class="tab-pane">
+            <div class="hardware-banner">
+                <div>
+                    <span class="shadcn-badge badge-amber" style="margin-bottom: 6px;">SIMULATED HARDWARE INTEGRATION</span>
+                    <p style="font-size: 13px; color: hsl(var(--muted-foreground));">C++ mock adapters for MCU, FPGA, and JTAG with real-time telemetry and fault injection demo.</p>
+                </div>
+            </div>
+
+            <div class="hardware-card-grid">
+                <!-- Card 1: MCU -->
+                <div class="shadcn-card" id="card-mcu">
+                    <div class="shadcn-card-header row">
+                        <div>
+                            <span class="shadcn-badge badge-secondary" style="font-size: 10px; margin-bottom: 4px;">ARM CORTEX-M7</span>
+                            <h3 class="shadcn-card-title">STM32H743ZI MCU</h3>
+                        </div>
+                        <span class="shadcn-badge badge-outline" id="mcu-status-badge">DISCONNECTED</span>
+                    </div>
+                    <div class="shadcn-card-content">
+                        <span style="font-size: 12px; color: hsl(var(--muted-foreground));">USB CDC-ACM / UART (115200 baud)</span>
+                        
+                        <div style="display:flex; gap:8px; margin: 12px 0;">
+                            <button class="btn btn-default btn-sm" id="btn-mcu-connect">Connect</button>
+                            <button class="btn btn-outline btn-sm" id="btn-mcu-disconnect" disabled>Disconnect</button>
+                            <button class="btn btn-destructive btn-sm" id="btn-mcu-fail" disabled>Inject Timeout</button>
+                            <button class="btn btn-secondary btn-sm" id="btn-mcu-recover" disabled>Auto-Recover</button>
+                        </div>
+
+                        <div class="telemetry-grid" id="mcu-telemetry-box">
+                            <div class="telemetry-cell"><span class="t-key">Core Temp</span><span class="t-val" id="mcu-temp">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">VCC Core (1.2V)</span><span class="t-val" id="mcu-vcc-core">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">VCC I/O (3.3V)</span><span class="t-val" id="mcu-vcc-io">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Clock Freq</span><span class="t-val" id="mcu-clock">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Processed Samples</span><span class="t-val" id="mcu-samples">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Firmware</span><span class="t-val" id="mcu-fw">-</span></div>
+                        </div>
+
+                        <div class="shadcn-alert alert-destructive" id="mcu-error-msg" style="display:none; margin-top: 12px;"></div>
+                    </div>
+                </div>
+
+                <!-- Card 2: FPGA -->
+                <div class="shadcn-card" id="card-fpga">
+                    <div class="shadcn-card-header row">
+                        <div>
+                            <span class="shadcn-badge badge-secondary" style="font-size: 10px; margin-bottom: 4px;">XILINX 7-SERIES</span>
+                            <h3 class="shadcn-card-title">Artix-7 XC7A100T FPGA</h3>
+                        </div>
+                        <span class="shadcn-badge badge-outline" id="fpga-status-badge">DISCONNECTED</span>
+                    </div>
+                    <div class="shadcn-card-content">
+                        <span style="font-size: 12px; color: hsl(var(--muted-foreground));">Memory-Mapped SPI / PCIe (10 MHz)</span>
+                        
+                        <div style="display:flex; gap:8px; margin: 12px 0;">
+                            <button class="btn btn-default btn-sm" id="btn-fpga-connect">Connect</button>
+                            <button class="btn btn-outline btn-sm" id="btn-fpga-disconnect" disabled>Disconnect</button>
+                            <button class="btn btn-destructive btn-sm" id="btn-fpga-fail" disabled>Inject CRC Fault</button>
+                            <button class="btn btn-secondary btn-sm" id="btn-fpga-recover" disabled>Auto-Recover</button>
+                        </div>
+
+                        <div class="telemetry-grid" id="fpga-telemetry-box">
+                            <div class="telemetry-cell"><span class="t-key">Die Temp</span><span class="t-val" id="fpga-temp">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">VCC Int (1.0V)</span><span class="t-val" id="fpga-vcc-int">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">VCC Aux (1.8V)</span><span class="t-val" id="fpga-vcc-aux">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">LUT / DSP Usage</span><span class="t-val" id="fpga-usage">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Bitstream</span><span class="t-val" id="fpga-accel">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">SysMon Alarm</span><span class="t-val" id="fpga-sysmon">-</span></div>
+                        </div>
+
+                        <div class="shadcn-alert alert-destructive" id="fpga-error-msg" style="display:none; margin-top: 12px;"></div>
+                    </div>
+                </div>
+
+                <!-- Card 3: JTAG -->
+                <div class="shadcn-card" id="card-jtag">
+                    <div class="shadcn-card-header row">
+                        <div>
+                            <span class="shadcn-badge badge-secondary" style="font-size: 10px; margin-bottom: 4px;">DEBUG & BOUNDARY SCAN</span>
+                            <h3 class="shadcn-card-title">FTDI FT2232H JTAG</h3>
+                        </div>
+                        <span class="shadcn-badge badge-outline" id="jtag-status-badge">DISCONNECTED</span>
+                    </div>
+                    <div class="shadcn-card-content">
+                        <span style="font-size: 12px; color: hsl(var(--muted-foreground));">USB 2.0 High-Speed MPSSE Engine</span>
+                        
+                        <div style="display:flex; gap:8px; margin: 12px 0;">
+                            <button class="btn btn-default btn-sm" id="btn-jtag-connect">Connect</button>
+                            <button class="btn btn-outline btn-sm" id="btn-jtag-disconnect" disabled>Disconnect</button>
+                            <button class="btn btn-destructive btn-sm" id="btn-jtag-fail" disabled>Inject Parity Fault</button>
+                            <button class="btn btn-secondary btn-sm" id="btn-jtag-recover" disabled>Auto-Recover</button>
+                        </div>
+
+                        <div class="telemetry-grid" id="jtag-telemetry-box">
+                            <div class="telemetry-cell"><span class="t-key">TCK Frequency</span><span class="t-val" id="jtag-tck">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Sensed VREF</span><span class="t-val" id="jtag-vref">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">TAP State</span><span class="t-val" id="jtag-tap">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Chain Devices</span><span class="t-val" id="jtag-targets">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Target 0</span><span class="t-val" id="jtag-dev0">-</span></div>
+                            <div class="telemetry-cell"><span class="t-key">Target 1</span><span class="t-val" id="jtag-dev1">-</span></div>
+                        </div>
+
+                        <div class="shadcn-alert alert-destructive" id="jtag-error-msg" style="display:none; margin-top: 12px;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="shadcn-footer">
+        <span>Unified Engineering Workbench — PASS Science Works</span>
+        <span>Local Backend: <code>http://127.0.0.1</code> | C++17 Statically Linked</span>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

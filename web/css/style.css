@@ -1,0 +1,682 @@
+/* ============================================================================
+   Shadcn UI Design System (Dark Mode Neutral/Zinc Palette)
+   Authentic tokens, typography, radii, borders, and component primitives.
+   Zero build step - 100% native CSS.
+============================================================================ */
+
+:root {
+    --background: 240 10% 3.9%;         /* #09090b */
+    --foreground: 0 0% 98%;             /* #fafafa */
+    
+    --card: 240 10% 4.9%;               /* #0c0c0e */
+    --card-elevated: 240 5.9% 10%;      /* #18181b */
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 0 0% 98%;                /* #fafafa */
+    --primary-foreground: 240 5.9% 10%; /* #18181b */
+    
+    --secondary: 240 3.7% 15.9%;        /* #27272a */
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 240 3.7% 15.9%;            /* #27272a */
+    --muted-foreground: 240 5% 64.9%;   /* #a1a1aa */
+    
+    --accent: 240 3.7% 15.9%;           /* #27272a */
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 62.8% 30.6%;       /* #7f1d1d */
+    --destructive-foreground: 0 0% 98%;
+    
+    --success: 142.1 70.6% 45.3%;       /* #22c55e */
+    --success-bg: 142.1 76.2% 36.3%;
+    
+    --warning: 38 92% 50%;              /* #f59e0b */
+    
+    --border: 240 3.7% 15.9%;           /* #27272a */
+    --border-subtle: 240 4% 12%;        /* #1f1f23 */
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;             /* #d4d4d8 */
+    
+    --radius: 0.5rem;                   /* 8px */
+    --radius-sm: 0.375rem;              /* 6px */
+    --radius-lg: 0.75rem;               /* 12px */
+    --radius-full: 9999px;
+    
+    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-color: hsl(var(--border));
+}
+
+body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* -------------------------------------------------------------
+   Header & Top Navigation (Shadcn Navbar Style)
+------------------------------------------------------------- */
+.shadcn-header {
+    height: 56px;
+    background-color: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    flex-shrink: 0;
+    z-index: 50;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 32px;
+    height: 32px;
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.brand-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: hsl(var(--foreground));
+}
+
+.brand-sub {
+    font-size: 11px;
+    color: hsl(var(--muted-foreground));
+    letter-spacing: 0.02em;
+}
+
+/* Shadcn Segmented Tab Navigation */
+.shadcn-tabs-nav {
+    display: inline-flex;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    background-color: hsl(var(--muted));
+    padding: 3px;
+    color: hsl(var(--muted-foreground));
+}
+
+.shadcn-tab-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 7px;
+}
+
+.shadcn-tab-trigger:hover {
+    color: hsl(var(--foreground));
+}
+
+.shadcn-tab-trigger.active {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.header-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: hsl(var(--muted-foreground));
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
+
+/* -------------------------------------------------------------
+   Layout Structure
+------------------------------------------------------------- */
+.workbench-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.tab-pane {
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.pane-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Shadcn Sidebar Panel */
+.shadcn-sidebar {
+    background-color: hsl(var(--card));
+    border-right: 1px solid hsl(var(--border));
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.shadcn-main-panel {
+    background-color: hsl(var(--background));
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* -------------------------------------------------------------
+   Shadcn Card Component Primitives
+------------------------------------------------------------- */
+.shadcn-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.shadcn-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 20px 14px 20px;
+    border-bottom: 1px solid hsl(var(--border-subtle));
+}
+
+.shadcn-card-header.row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.shadcn-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: hsl(var(--foreground));
+}
+
+.shadcn-card-description {
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.4;
+}
+
+.shadcn-card-content {
+    padding: 20px;
+}
+
+/* -------------------------------------------------------------
+   Shadcn Button Component Primitives
+------------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    height: 36px;
+    padding: 0 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+    text-decoration: none;
+    gap: 8px;
+    user-select: none;
+}
+
+.btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+}
+
+.btn:disabled {
+    pointer-events: none;
+    opacity: 0.45;
+}
+
+/* Variants */
+.btn-default {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.btn-default:hover:not(:disabled) {
+    background-color: hsl(var(--primary) / 0.9);
+}
+
+.btn-secondary {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+}
+.btn-secondary:hover:not(:disabled) {
+    background-color: hsl(var(--secondary) / 0.8);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border-color: hsl(var(--input));
+    color: hsl(var(--foreground));
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.btn-outline:hover:not(:disabled) {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+}
+
+.btn-destructive {
+    background-color: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+}
+.btn-destructive:hover:not(:disabled) {
+    background-color: hsl(var(--destructive) / 0.9);
+}
+
+.btn-sm {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.btn-w-full {
+    width: 100%;
+}
+
+.btn-group-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-group-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* -------------------------------------------------------------
+   Shadcn Form Inputs & Labels
+------------------------------------------------------------- */
+.form-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+}
+
+.shadcn-input {
+    display: flex;
+    height: 32px;
+    width: 120px;
+    border-radius: var(--radius-sm);
+    border: 1px solid hsl(var(--input));
+    background-color: hsl(var(--background));
+    padding: 4px 10px;
+    font-size: 13px;
+    color: hsl(var(--foreground));
+    font-family: var(--font-mono);
+    text-align: right;
+    transition: border-color 0.15s ease;
+}
+
+.shadcn-input:focus {
+    outline: none;
+    border-color: hsl(var(--ring));
+}
+
+/* -------------------------------------------------------------
+   Shadcn Badge Component Primitives
+------------------------------------------------------------- */
+.shadcn-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: colors 0.15s ease;
+}
+
+.badge-default {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.badge-secondary {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border-color: hsl(var(--border));
+}
+
+.badge-outline {
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+}
+
+.badge-success {
+    background-color: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.badge-amber {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.badge-destructive {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* -------------------------------------------------------------
+   Shadcn Table Primitives
+------------------------------------------------------------- */
+.shadcn-table-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    border-radius: var(--radius-sm);
+    border: 1px solid hsl(var(--border));
+}
+
+.shadcn-table {
+    width: 100%;
+    caption-side: bottom;
+    font-size: 13px;
+    border-collapse: collapse;
+}
+
+.shadcn-table th {
+    height: 38px;
+    padding: 0 14px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 500;
+    font-size: 12px;
+    color: hsl(var(--muted-foreground));
+    border-bottom: 1px solid hsl(var(--border));
+    background-color: hsl(var(--muted) / 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.shadcn-table td {
+    padding: 10px 14px;
+    vertical-align: middle;
+    border-bottom: 1px solid hsl(var(--border-subtle));
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.shadcn-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.shadcn-table tbody tr:hover {
+    background-color: hsl(var(--muted) / 0.3);
+}
+
+/* -------------------------------------------------------------
+   3D Viewport Styling (Geometry Tab)
+------------------------------------------------------------- */
+.viewport-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #121217 0%, #09090b 100%);
+    overflow: hidden;
+}
+
+.threejs-canvas-target {
+    width: 100%;
+    height: 100%;
+}
+
+.shadcn-colormap-overlay {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: hsl(var(--card) / 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    width: 240px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.colormap-gradient-bar {
+    height: 10px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #0000ff, #00ffff, #00ff00, #ffff00, #ff0000);
+    margin: 8px 0 6px 0;
+}
+
+.colormap-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: hsl(var(--foreground));
+}
+
+/* Drop area */
+.shadcn-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed hsl(var(--border));
+    border-radius: var(--radius);
+    padding: 16px;
+    background-color: hsl(var(--card-elevated) / 0.4);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.shadcn-dropzone:hover {
+    border-color: hsl(var(--ring));
+}
+
+/* -------------------------------------------------------------
+   Charts & Progress Components
+------------------------------------------------------------- */
+.chart-card-wrapper {
+    width: 100%;
+    height: 240px;
+    background-color: hsl(var(--card-elevated) / 0.5);
+    border-radius: var(--radius);
+    border: 1px solid hsl(var(--border));
+    overflow: hidden;
+    position: relative;
+}
+
+.shadcn-progress {
+    position: relative;
+    height: 8px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-full);
+    background-color: hsl(var(--secondary));
+}
+
+.shadcn-progress-indicator {
+    height: 100%;
+    width: 0%;
+    background-color: hsl(var(--primary));
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Alert Boxes */
+.shadcn-alert {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid hsl(var(--border));
+    padding: 12px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.alert-destructive {
+    border-color: hsl(var(--destructive) / 0.5);
+    background-color: hsl(var(--destructive) / 0.15);
+    color: #fca5a5;
+}
+
+.alert-success {
+    border-color: rgba(34, 197, 94, 0.3);
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+}
+
+/* -------------------------------------------------------------
+   Hardware Tab (Simulated Grid)
+------------------------------------------------------------- */
+.hardware-banner {
+    background-color: hsl(var(--card));
+    border-bottom: 1px solid hsl(var(--border));
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hardware-card-grid {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
+}
+
+.telemetry-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    background-color: hsl(var(--background));
+    border: 1px solid hsl(var(--border-subtle));
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-top: 14px;
+}
+
+.telemetry-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.t-key {
+    font-size: 11px;
+    color: hsl(var(--muted-foreground));
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.t-val {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    color: hsl(var(--foreground));
+    margin-top: 2px;
+}
+
+/* -------------------------------------------------------------
+   Footer
+------------------------------------------------------------- */
+.shadcn-footer {
+    height: 32px;
+    background-color: hsl(var(--background));
+    border-top: 1px solid hsl(var(--border));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 12px;
+    color: hsl(var(--muted-foreground));
+    flex-shrink: 0;
+}
+
+.shadcn-footer code {
+    font-family: var(--font-mono);
+    color: hsl(var(--foreground));
+}

@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake Configure",
+            "type": "shell",
+            "command": "cmake -B build -DCMAKE_BUILD_TYPE=Release",
+            "group": "build"
+        },
+        {
+            "label": "Build All",
+            "type": "shell",
+            "command": "cmake --build build --config Release",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": ["CMake Configure"]
+        },
+        {
+            "label": "Run Tests",
+            "type": "shell",
+            "command": "ctest --test-dir build --output-on-failure",
+            "group": "test"
+        },
+        {
+            "label": "Package Dist",
+            "type": "shell",
+            "command": "mkdir -p dist/web dist/data && cp build/Launch dist/ 2>/dev/null || true && cp build/workbench_server dist/ 2>/dev/null || true && cp -r web/* dist/web/ && cp -r data/* dist/data/",
+            "group": "build"
+        }
+    ]
+}
