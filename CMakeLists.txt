@@ -35,6 +35,8 @@ set(CORE_SOURCES
     src/core/fea.cpp
     src/core/backprop.cpp
     src/core/multicore_benchmark.cpp
+    src/core/stl_parser.cpp
+    src/core/ansys_parser.cpp
 )
 
 add_library(workbench_core STATIC ${CORE_SOURCES})
@@ -47,12 +49,16 @@ target_link_libraries(workbench_core PUBLIC Threads::Threads)
 # Core unit tests
 add_executable(test_fea tests/test_fea.cpp)
 target_link_libraries(test_fea PRIVATE workbench_core)
-add_test(NAME test_fea COMMAND test_fea)
+add_test(NAME test_fea COMMAND test_fea WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(test_backprop tests/test_backprop.cpp)
 target_link_libraries(test_backprop PRIVATE workbench_core)
-add_test(NAME test_backprop COMMAND test_backprop)
+add_test(NAME test_backprop COMMAND test_backprop WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(test_multicore tests/test_multicore.cpp)
 target_link_libraries(test_multicore PRIVATE workbench_core)
-add_test(NAME test_multicore COMMAND test_multicore)
+add_test(NAME test_multicore COMMAND test_multicore WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable(test_parsers tests/test_parsers.cpp)
+target_link_libraries(test_parsers PRIVATE workbench_core)
+add_test(NAME test_parsers COMMAND test_parsers WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
