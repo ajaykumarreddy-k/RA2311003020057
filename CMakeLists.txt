@@ -31,6 +31,7 @@ include_directories(
 # Core library source files
 set(CORE_SOURCES
     src/core/fea.cpp
+    src/core/backprop.cpp
 )
 
 add_library(workbench_core STATIC ${CORE_SOURCES})
@@ -43,3 +44,7 @@ target_include_directories(workbench_core PUBLIC
 add_executable(test_fea tests/test_fea.cpp)
 target_link_libraries(test_fea PRIVATE workbench_core)
 add_test(NAME test_fea COMMAND test_fea)
+
+add_executable(test_backprop tests/test_backprop.cpp)
+target_link_libraries(test_backprop PRIVATE workbench_core)
+add_test(NAME test_backprop COMMAND test_backprop)
