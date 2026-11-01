@@ -5,26 +5,46 @@
 
 ---
 
-## 1. Quick Start & One-Click Launch
+## 1. How to Run (Quick Start & One-Click Launch)
 
-### Windows 11 x64 (Primary Target)
-1. Navigate to the `dist/` directory.
-2. Double-click **`Launch.exe`**.
-3. The launcher will automatically find an available localhost port, start `workbench_server.exe` silently in the background (no terminal or PowerShell popups), and open your default browser to `http://127.0.0.1:<port>/`.
-4. Closing the browser tab or exiting the launcher automatically shuts down the server.
+### Option A: Standalone Packaged Run (Zero Installs, Zero Terminal)
+- **Windows 11 x64:**
+  1. Open the `dist/` directory.
+  2. Double-click **`Launch.exe`**.
+  3. The launcher will automatically find an available localhost port, start `workbench_server.exe` silently in the background (no console window or PowerShell popup), and open your default browser to `http://127.0.0.1:<port>/`.
+  4. Closing the browser tab or closing the launcher automatically shuts down the server.
 
-### Linux / Development Run
+- **Linux x64:**
+  ```bash
+  ./dist/Launch
+  ```
+  *(Finds a free port, starts the server in background, and opens your default browser via `xdg-open`)*.
+
+### Option B: Run from Source / Build Directory
 ```bash
-# Build with CMake
+# 1. Configure and Build (Release mode)
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
 
-# Run automated tests
+# 2. Run All Automated Unit Tests (doctest / CTest)
 ctest --test-dir build --output-on-failure
 
-# Launch the application
+# 3. Run via Launcher
 ./build/Launch
+
+# Or run the HTTP backend server directly:
+./build/workbench_server --port 8080
+# Then open http://127.0.0.1:8080/ in your browser
 ```
+
+### Option C: VS Code One-Action Run (F5)
+1. Open this repository folder in VS Code.
+2. Press **`F5`** (or go to **Run and Debug** $\to$ select **"Launch Workbench (Packaged)"** $\to$ click Play).
+3. VS Code will automatically run the `Build All` task and launch the workbench.
+
+### Clean Shutdown Behavior
+- Closing the browser tab sends a clean shutdown beacon (`/api/shutdown`) to terminate the backend server.
+- Terminating `Launch` (or pressing `Ctrl+C` in terminal mode) signals the server process to cleanly flush and exit.
 
 ---
 
