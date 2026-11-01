@@ -1,0 +1,69 @@
+Unified Engineering Workbench - Automated Test Suite Output
+Generated: Sun Nov  1 17:04:20 IST 2026
+Platform: Linux prince-Laptop 6.17.0-41-generic #41-Ubuntu SMP PREEMPT_DYNAMIC Sat Jun 20 18:01:40 UTC 2026 x86_64 GNU/Linux
+Compiler: g++ (Ubuntu 15.2.0-4ubuntu4) 15.2.0
+CMake: cmake version 3.31.6
+
+================================================
+CTest Summary:
+================================================
+Internal ctest changing into directory: /home/prince/ProjectsMain/passsciense assesment/build
+Test project /home/prince/ProjectsMain/passsciense assesment/build
+    Start 1: test_fea
+1/5 Test #1: test_fea .........................   Passed    0.00 sec
+    Start 2: test_backprop
+2/5 Test #2: test_backprop ....................   Passed    0.00 sec
+    Start 3: test_multicore
+3/5 Test #3: test_multicore ...................   Passed    0.01 sec
+    Start 4: test_parsers
+4/5 Test #4: test_parsers .....................   Passed    0.00 sec
+    Start 5: test_embedded
+5/5 Test #5: test_embedded ....................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =   0.02 sec
+
+================================================
+Detailed Per-Module Output:
+================================================
+
+--- test_fea ---
+[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   5 |   5 passed | 0 failed | 0 skipped
+[doctest] assertions: 185 | 185 passed | 0 failed |
+[doctest] Status: SUCCESS!
+
+--- test_backprop ---
+[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   4 |   4 passed | 0 failed | 0 skipped
+[doctest] assertions: 132 | 132 passed | 0 failed |
+[doctest] Status: SUCCESS!
+
+--- test_multicore ---
+[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   4 |   4 passed | 0 failed | 0 skipped
+[doctest] assertions: 279 | 279 passed | 0 failed |
+[doctest] Status: SUCCESS!
+
+--- test_parsers ---
+[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  4 |  4 passed | 0 failed | 0 skipped
+[doctest] assertions: 37 | 37 passed | 0 failed |
+[doctest] Status: SUCCESS!
+
+--- test_embedded ---
+[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  3 |  3 passed | 0 failed | 0 skipped
+[doctest] assertions: 41 | 41 passed | 0 failed |
+[doctest] Status: SUCCESS!
